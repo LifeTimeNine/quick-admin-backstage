@@ -1,23 +1,13 @@
 <template>
   <div id="app">
-    {{ html }}
+    <router-view />
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'app',
-  data() {
-    return {
-      html: ''
-    }
-  },
-  created() {
-    this.$get('systemconfig/basic').then(response => {
-      console.log(response)
-    })
-  }
+  name: 'app'
 }
 </script>
 
