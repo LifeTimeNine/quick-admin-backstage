@@ -7,14 +7,17 @@ import store from './store'
 import router from './router'
 import components from './components'
 import request from './utils/request'
+import icons from './icons'
 
-import './icons'
+import '@/styles/index.scss'
+import './permission'
 
 const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(components)
 app.use(ElementPlus)
+app.use(icons)
 
 // 全局请求方法
 Object.keys(request).forEach(key => {

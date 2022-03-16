@@ -8,15 +8,15 @@ function resolve(dir) {
 const port = process.env.port || process.env.npm_config_port || 9528
 
 module.exports = defineConfig({
-  publicPath: '/',
-  outputDir: 'dist',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: false,
   productionSourceMap: false,
   transpileDependencies: true,
+
   devServer: {
     port: port,
     open: false
   },
+
   configureWebpack: {
     resolve: {
       alias: {
@@ -24,6 +24,7 @@ module.exports = defineConfig({
       }
     }
   },
+
   chainWebpack(config) {
 
     config.plugins.delete('prefetch')
@@ -40,5 +41,14 @@ module.exports = defineConfig({
         symbolId: 'icon-[name]'
       })
       .end()
-  }
+  },
+
+  css: {
+    loaderOptions: {
+      scss: {
+      }
+    }
+  },
+
+  assetsDir: 'static'
 })
