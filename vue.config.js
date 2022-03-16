@@ -45,7 +45,10 @@ module.exports = defineConfig({
 
   css: {
     loaderOptions: {
-      scss: {
+      css: {
+        modules: {
+          mode: 'icss'
+        }
       }
     }
   },

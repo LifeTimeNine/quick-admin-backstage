@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="true" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger :is-active="sidebarOpened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
 
@@ -36,12 +36,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userInfo'
+      'userInfo',
+      'sidebarOpened'
     ])
   },
   methods: {
     toggleSideBar() {
-
+      this.$store.dispatch('app/toggleSideBar')
     }
   }
 }
