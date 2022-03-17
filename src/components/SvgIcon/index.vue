@@ -1,10 +1,14 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconName" />
-  </svg>
+  <div class="icon-box">
+    <svg v-if="iconClass && isSvgIcon" :class="svgClass" aria-hidden="true">
+      <use :xlink:href="iconName" />
+    </svg>
+    <component v-else-if="iconClass && !isElIcon" :is="'el-icon-' + iconClass" class="svg-icon" />
+  </div>
 </template>
 
 <script>
+import { svgIcons, elIcons } from '@/icons'
 export default {
   name: 'SvgIcon',
   props: {
@@ -18,6 +22,12 @@ export default {
     }
   },
   computed: {
+    isSvgIcon() {
+      return svgIcons.indexOf(this.iconClass) !== -1
+    },
+    isElIcon() {
+      return elIcons.indexOf(this.iconClass.replace('-', '').toLocaleLowerCase()) == -1
+    },
     iconName() {
       return `#icon-${this.iconClass}`
     },
@@ -33,6 +43,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.icon-box {
+  display: inline-block;
+}
 .svg-icon {
   width: 1em;
   height: 1em;

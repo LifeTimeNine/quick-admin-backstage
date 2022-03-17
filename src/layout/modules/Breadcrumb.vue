@@ -26,14 +26,14 @@ export default {
   },
   watch: {
     $route() {
-      // this.getBreadcrumb()
+      this.getBreadcrumb()
     }
   },
   created() {
-    // if (this.$route.fullPath !== '/dashboard') {
-    //   this.$store.commit('app/MENU_ACTIVE', this.getMenuIndex(this.$route.path, this.menus))
-    // }
-    // this.getBreadcrumb()
+    if (this.$route.fullPath !== '/dashboard') {
+      this.$store.commit('app/MENU_ACTIVE', this.getMenuIndex(this.$route.path, this.menus))
+    }
+    this.getBreadcrumb()
   },
   methods: {
     getBreadcrumb() {

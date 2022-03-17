@@ -1,7 +1,7 @@
 import router from './router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { whitePaths, commonPaths } from './setting'
+import { whitePaths, commonPaths } from './settings'
 import store from './store'
 import { removeTokenData } from './utils/token'
 import { ElMessage } from 'element-plus'

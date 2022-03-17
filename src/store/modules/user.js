@@ -1,6 +1,6 @@
 import nodes from '@/nodes'
 import { $get, $post } from '@/utils/request'
-import { getToken, setTokenData } from '@/utils/token'
+import { getToken, removeTokenData, setTokenData } from '@/utils/token'
 
 const defaultState = () => {
   return {
@@ -43,6 +43,14 @@ const actions = {
       }).catch(e => {
         reject(e)
       })
+    })
+  },
+  logout({ commit }) {
+    return new Promise((resolve, reject) => {
+      removeTokenData()
+      commit('RESET_STATE')
+      resolve()
+      $get(nodes.auth.logout)
     })
   },
   getUserInfo({ commit }) {

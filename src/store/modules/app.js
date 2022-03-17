@@ -1,29 +1,34 @@
-// 应用相关
+import Storage from '@/utils/storage'
 
-import nodes from "@/nodes"
-import { $get } from "@/utils/request"
-import Storage from "@/utils/storage"
-
-const defaultState = () => {
-  return {
-    sidebarOpened: Storage.get('sidebarOpened'),
-    menuActive: '-1',
-    config: {
-      system_name: 'QuickAdmin'
-    }
-  }
+const state = {
+  sidebar: {
+    opened: Storage.get('sidebarStatus'),
+    withoutAnimation: false
+  },
+  device: 'desktop',
+  menuActive: '-1'
 }
 
 const mutations = {
   TOGGLE_SIDEBAR: state => {
-    state.sidebarOpened = !state.sidebarOpened
-    Storage.set('sidebarOpened', state.sidebarOpened)
+    state.sidebar.opened = !state.sidebar.opened
+    state.sidebar.withoutAnimation = false
+    if (state.sidebar.opened) {
+      Storage.set('sidebarStatus', true)
+    } else {
+      Storage.set('sidebarStatus', false)
+    }
+  },
+  CLOSE_SIDEBAR: (state, withoutAnimation) => {
+    Storage.set('sidebarStatus', false)
+    state.sidebar.opened = false
+    state.sidebar.withoutAnimation = withoutAnimation
+  },
+  TOGGLE_DEVICE: (state, device) => {
+    state.device = device
   },
   MENU_ACTIVE: (state, active) => {
     state.menuActive = active
-  },
-  CONFIG: (state, config) => {
-    state.config = config
   }
 }
 
@@ -31,24 +36,17 @@ const actions = {
   toggleSideBar({ commit }) {
     commit('TOGGLE_SIDEBAR')
   },
-  menuActive({ commit }, active) {
-    commit('MENU_ACTIVE', active)
+  closeSideBar({ commit }, { withoutAnimation }) {
+    commit('CLOSE_SIDEBAR', withoutAnimation)
   },
-  config({ commit }) {
-    return new Promise((resolve, reject) => {
-      $get(nodes.systemConfig.basic).then(data => {
-        commit('CONFIG', data.map)
-        resolve(data.map)
-      }).catch(e => {
-        reject(e)
-      })
-    })
+  toggleDevice({ commit }, device) {
+    commit('TOGGLE_DEVICE', device)
   }
 }
 
 export default {
   namespaced: true,
-  state: defaultState(),
+  state,
   mutations,
   actions
 }

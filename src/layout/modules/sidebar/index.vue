@@ -1,6 +1,8 @@
 <template>
-  <el-scrollbar wrap-class="scrollbar-wrapper">
-    <el-menu
+  <div :class="{'has-logo':showLogo}">
+    <logo v-if="showLogo" :collapse="isCollapse" />
+    <el-scrollbar wrap-class="scrollbar-wrapper">
+      <el-menu
         :default-active="menuActive"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
@@ -13,42 +15,46 @@
       >
         <app-link to="/dashboard">
           <el-menu-item index="-1">
-            <menu-item icon="dashboard" title="仪表盘" />
+            <svg-icon icon-class="dashboard"/>
+            <span>仪表盘</span>
           </el-menu-item>
         </app-link>
+        <sidebar-item v-for="(menu, index) in menus" :key="index + ''" :item="menu" :index="index + ''" />
       </el-menu>
-  </el-scrollbar>
+    </el-scrollbar>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import AppLink from './AppLink.vue'
-import MenuItem from './MenuItem.vue'
+import Logo from './Logo'
+import AppLink from './AppLink'
+import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
 export default {
-  name: 'SideBar',
-  components: { AppLink, MenuItem },
+  name: 'sideBar',
+  components: { SidebarItem, Logo, AppLink },
   computed: {
     ...mapGetters([
-      'sidebarOpened',
+      'sidebar',
       'menus',
       'menuActive'
     ]),
+    showLogo() {
+      return this.$store.state.settings.sidebarLogo
+    },
     variables() {
       return variables
     },
     isCollapse() {
-      return !this.sidebarOpened
+      return !this.sidebar.opened
     }
   },
   methods: {
     menuSelect(e) {
-      this.$store.dispatch('app/menuActive', e)
+      this.$store.commit('app/MENU_ACTIVE', e)
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -1,13 +1,17 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">欢迎你:</div>
+    <div class="dashboard-text">欢迎你: {{userInfo.name}}</div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'DashBoard'
+  name: 'DashBoard',
+  computed: {
+    ...mapGetters(['userInfo'])
+  }
 }
 </script>
 

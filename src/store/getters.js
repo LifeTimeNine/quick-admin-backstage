@@ -1,6 +1,7 @@
 export default {
-  config: state => state.app.config,
-  sidebarOpened: state => state.app.sidebarOpened,
+  settings: state => state.settings,
+  sidebar: state => state.app.sidebar,
+  device: state => state.app.device,
   menuActive: state => state.app.menuActive,
   accessToken: state => state.user.token,
   menus: state => state.user.menus,

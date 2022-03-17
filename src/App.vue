@@ -1,12 +1,15 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    this.$store.dispatch('settings/serverGet').then(() => {
+      document.title = this.$store.getters.settings.system_name
+    })
+  }
 }
 </script>
 

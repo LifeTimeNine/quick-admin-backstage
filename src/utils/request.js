@@ -1,13 +1,13 @@
 import axios from "axios";
 import { ElMessage } from 'element-plus' 
-import { appName } from '@/setting'
+import { appName } from '@/settings'
 import { removeTokenData } from "./token";
 import router from "@/router";
 import store from "@/store";
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_API + '/' + appName + '/',
-  timeout: 5000
+  timeout: 10000
 })
 
 // 参数异常
