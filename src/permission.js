@@ -12,7 +12,7 @@ function isWhitePath(path) {
 
 function authPaths(path) {
   if (commonPaths.indexOf(path) !== -1) return true
-  if (store.getters.userInfo.indexOf(path) !== -1) return true
+  if (store.getters.menuPaths.indexOf(path) !== -1) return true
   return false
 }
 

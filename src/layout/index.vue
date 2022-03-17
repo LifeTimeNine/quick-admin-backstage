@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Navbar from './modules/Navbar'
-import Sidebar from './modules/Sidebar/index'
+import Navbar from './modules/NavBar'
+import Sidebar from './modules/sidebar/index'
 import AppMain from './modules/AppMain'
 import ResizeMixin from './mixin/ResizeHandler'
 

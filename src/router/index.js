@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Layout from '@/layout'
+import system from './modules/system'
 
 const routes = [
   {
@@ -21,7 +22,8 @@ const routes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/Dashboard')
-      }
+      },
+      system,
     ]
   },
   {

@@ -9,6 +9,7 @@ import components from './components'
 import request from './utils/request'
 import icons from './icons'
 import nodes from './nodes'
+import directive from './directive'
 
 import '@/styles/index.scss'
 import './permission'
@@ -24,6 +25,10 @@ app.use(icons)
 Object.keys(request).forEach(key => {
   app.config.globalProperties[key] = request[key]
 });
+// 自定义指令
+Object.keys(directive).forEach(key => {
+  app.directive(key, directive[key])
+})
 
 // 全局节点
 app.config.globalProperties.$nodes = nodes

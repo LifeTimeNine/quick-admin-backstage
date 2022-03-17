@@ -3,5 +3,6 @@ export default {
   getMenu: 'systemuser/getMenu',
   editUserInfo: 'systemuser/editUserInfo',
   modifyPwd: 'systemuser/modifyPwd',
-  refresh: 'systemuser/refresh'
+  refresh: 'systemuser/refresh',
+  list: 'systemuser/list',
 }

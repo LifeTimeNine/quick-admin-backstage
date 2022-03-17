@@ -11,8 +11,8 @@
       </div>
     </div>
     <el-table v-loading="tableLoading" :data="list" border stripe size="small">
-      <template #default="{ row, column, $index }">
-        <slot name="list-column" :row="row" :column="column" :$index="$index" />
+      <template #default>
+        <slot name="list-column" />
       </template>
     </el-table>
     <el-pagination
@@ -48,8 +48,8 @@ export default {
       type: Boolean,
       default: false
     },
-    dataApi: {
-      type: Function,
+    node: {
+      type: String,
       required: true
     },
     extendQuery: {
@@ -86,8 +86,7 @@ export default {
     refresh() {
       this.$nextTick(() => {
         this.tableLoading = true
-        this.dataApi(Object.assign({}, this.extendQuery, this.queryOptions)).then(response => {
-          const { items, limit, page, total } = response.data
+        this.$get(this.node, Object.assign({}, this.extendQuery, this.queryOptions)).then(({ items, limit, page, total }) => {
           this.list = items
           this.total = total
           this.queryOptions.limit = limit
