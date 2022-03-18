@@ -10,6 +10,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { whitePaths } from '@/settings'
 
 export default {
   name: 'BreadCrumb',
@@ -30,13 +31,15 @@ export default {
     }
   },
   created() {
-    if (this.$route.fullPath !== '/dashboard') {
+    if (this.$route.path !== '/dashboard') {
       this.$store.commit('app/MENU_ACTIVE', this.getMenuIndex(this.$route.path, this.menus))
     }
     this.getBreadcrumb()
   },
   methods: {
     getBreadcrumb() {
+      const isWhitePath = whitePaths.indexOf(this.$route.path) !== -1
+      if (isWhitePath) return
       if (this.menuActive === '-1') {
         this.levelList = ['仪表盘']
       } else {

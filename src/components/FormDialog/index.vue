@@ -61,7 +61,7 @@ export default {
     }
   },
   methods: {
-    open(row, title) {
+    open(row = {}, title = null) {
       this.row = Object.assign({}, row)
       this.title = title || (row.id ? '编辑' : '新增')
       this.opened = true

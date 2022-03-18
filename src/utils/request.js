@@ -69,8 +69,8 @@ request.interceptors.response.use(
   }
 )
 
-export function $get(url, config = {}) {
-  return request.get(url, config)
+export function $get(url, params ={}, config = {}) {
+  return request.get(url, Object.assign({}, { params }, config))
 }
 
 export function $post(url, data = {}, config = {}) {

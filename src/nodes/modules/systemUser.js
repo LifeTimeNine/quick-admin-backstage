@@ -5,4 +5,9 @@ export default {
   modifyPwd: 'systemuser/modifyPwd',
   refresh: 'systemuser/refresh',
   list: 'systemuser/list',
+  add: 'systemuser/add',
+  edit: 'systemuser/edit',
+  modifyStatus: 'systemuser/modifyStatus',
+  softDelete: 'systemuser/softDelete',
+  resetPwd: 'systemuser/resetPwd'
 }

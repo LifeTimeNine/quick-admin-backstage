@@ -1,41 +1,47 @@
 <template>
   <div>
-    <div class="header" :class="{ 'hide-search': hideSearch }">
-      <div v-if="!hideSearch" class="search">
+      <el-form :model="queryOptions" ref="form" :inline="true">
         <slot name="search" :options="queryOptions" />
-        <el-button type="primary" size="small" @click="refresh">搜索</el-button>
-        <el-button size="small" @click="resetQuery">重置</el-button>
-      </div>
+        <el-form-item>
+          <el-button type="primary" @click="refresh" title="搜索">搜索</el-button>
+          <el-button @click="resetQuery">重置</el-button>
+        </el-form-item>
+      </el-form>
       <div class="actions">
         <slot name="actions" />
       </div>
-    </div>
-    <el-table v-loading="tableLoading" :data="list" border stripe size="small">
-      <template #default>
-        <slot name="list-column" />
-      </template>
-    </el-table>
-    <el-pagination
-      v-if="!hidePagination"
-      small
-      :current-page="queryOptions.page"
-      :page-size="queryOptions.limit"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      background
-      :pager-count="7"
-      @size-change="pageSizeChange"
-      @current-change="pageChange"
-      @prev-click="pageChange"
-      @next-click="pageChange"
-    />
+      <el-table
+        v-loading="tableLoading"
+        :data="list"
+        border
+        stripe
+        @sort-change="sortChange"
+      >
+        <template #default>
+          <slot name="list-column" />
+        </template>
+      </el-table>
+      <el-pagination
+        v-if="!hidePagination"
+        v-model:current-page="queryOptions.page"
+        v-model:page-size="queryOptions.limit"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        background
+        :pager-count="7"
+        @size-change="pageSizeChange"
+        @current-change="pageChange"
+        @prev-click="pageChange"
+        @next-click="pageChange"
+      />
   </div>
 </template>
 
 <script>
 const defaultQueryOptions = {
   page: 1,
-  limit: 10
+  limit: 10,
+  order_rule: ''
 }
 export default {
   name: 'DataList',
@@ -100,47 +106,43 @@ export default {
       this.queryOptions = Object.assign({}, defaultQueryOptions)
       this.refresh()
     },
-    pageSizeChange(size) {
-      this.queryOptions.limit = size
+    pageSizeChange() {
       this.refresh()
     },
-    pageChange(page) {
-      this.queryOptions.page = page
+    pageChange() {
       this.refresh()
     },
     getList() {
       return this.list
+    },
+    sortChange({ prop, order }) {
+      if (prop) {
+        this.queryOptions.order_rule = `${prop}.${order === 'ascending' ? 'asc' : 'desc'}`
+      } else {
+        this.queryOptions.order = null
+      }
+      this.refresh()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.header {
-  &.hide-search {
-    border: 0;
-    padding: 0;
-  }
-  padding: 5px;
-  border: 1px solid #DCDFE6;
-  margin-bottom: 10px;
-  position: relative;
-  .search {
-    display: inline-block;
-    .el-input,
-    .el-select,
-    .el-date-picker {
-      width: 150px;
-      margin-right: 10px;
-    }
-  }
-  .actions {
-    float: right;
+.actions :deep(){
+  text-align: right;
+  &>* {
     margin-bottom: 10px;
   }
 }
 
-.el-table {
+.el-table :deep() {
   margin-bottom: 10px;
+  .el-table__row {
+    .cell {
+      &>.el-link:nth-child(n+2) {
+        margin-left: 1em;
+      }
+    }
+  }
 }
 </style>

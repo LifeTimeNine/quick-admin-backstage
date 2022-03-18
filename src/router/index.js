@@ -22,10 +22,10 @@ const routes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/Dashboard')
-      },
-      system,
+      }
     ]
   },
+  system,
   {
     path: '/*',
     redirect: '/404',

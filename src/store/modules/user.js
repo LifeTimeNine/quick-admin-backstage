@@ -47,10 +47,13 @@ const actions = {
   },
   logout({ commit }) {
     return new Promise((resolve, reject) => {
-      removeTokenData()
-      commit('RESET_STATE')
-      resolve()
-      $get(nodes.auth.logout)
+      $get(nodes.auth.logout).then(() => {
+        removeTokenData()
+        commit('RESET_STATE')
+        resolve()
+      }).catch(e => {
+        reject(e)
+      })
     })
   },
   getUserInfo({ commit }) {
