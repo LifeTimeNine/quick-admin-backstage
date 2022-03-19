@@ -19,7 +19,7 @@ module.exports = {
    * @type {Array}
    * @description 不需要验证节点权限的页面地址
    */
-  commonPaths: ['/dashboard'],
+  commonPaths: ['/dashboard', '/demo/tinymce'],
   /**
    * @type {boolean} true | false
    * @description 是否修复标题

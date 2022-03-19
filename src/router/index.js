@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Layout from '@/layout'
+import demo from './modules/demo'
 import system from './modules/system'
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
       }
     ]
   },
+  demo,
   system,
   {
     path: '/*',

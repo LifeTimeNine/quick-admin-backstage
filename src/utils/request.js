@@ -1,9 +1,8 @@
 import axios from "axios";
 import { ElMessage } from 'element-plus' 
 import { appName } from '@/settings'
-import { removeTokenData } from "./token";
-import router from "@/router";
-import store from "@/store";
+import router from "@/router"
+import store from "@/store"
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_API + '/' + appName + '/',
@@ -43,19 +42,18 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   response => {
+    // 判断是否存在刷新token
+    if (response.headers.refresh_token) {
+      store.dispatch('user/setToken', response.headers.refresh_token)
+    }
     const res = response.data
-    if (res.code != 0) {
+    if (res.code !== 0) {
       if ([param_error, permission_denied].indexOf(res.code) !== -1) {
         ElMessage.warning(res.message)
       } else if ([token_error, token_expire, token_failure, user_login].indexOf(res.code) !== -1) {
-        ElMessage.error({
-          message: res.message,
-          onClose() {
-            removeTokenData()
-            router.replace({ name: 'Login' })
-            window.location.reload()
-          }
-        })
+        ElMessage.error(res.message)
+        store.dispatch('user/removeToken')
+        router.replace({ name: 'Login' })
       } else {
         ElMessage.error(res.message)
       }

@@ -6,7 +6,8 @@ const state = {
     withoutAnimation: false
   },
   device: 'desktop',
-  menuActive: '-1'
+  menuActive: '-1',
+  authStatus: true
 }
 
 const mutations = {
@@ -29,6 +30,9 @@ const mutations = {
   },
   MENU_ACTIVE: (state, active) => {
     state.menuActive = active
+  },
+  AUTH_STATUS: (state, status) => {
+    state.authStatus = status
   }
 }
 

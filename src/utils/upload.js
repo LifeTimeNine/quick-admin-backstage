@@ -202,7 +202,7 @@ const Upload = function(options = {}) {
             var nextFunc = () => {
               if (errorStatus) return
               if (taskNum >= this.maxTaskNum) return
-              if (partOptions.length <= 4 && applyNum + 1 < partNum && getOptionsTaskNum === 0) {
+              if (partOptions.length <= 4 && applyNum < partNum && getOptionsTaskNum === 0) {
                 var startNumber = applyNum + 1
                 var endNUmber = startNumber + 10 >= partNum ? partNum + 1 : startNumber + 10
                 $post(nodes.upload.partOptions, {
@@ -239,7 +239,7 @@ const Upload = function(options = {}) {
                     callback(progressCallback, [Object.values(completePart).map(item => item.completeSize).reduce((total, cur) => total + cur, 0), file.size])
                   }
                 }).then(response => {
-                  if (response.status !== 200) {
+                  if (response.status !== 200 && response.status !== 204) {
                     errorStatus = true
                   } else {
                     taskNum--

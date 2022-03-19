@@ -2,18 +2,14 @@ import Storage from './storage'
 
 const TokenKey = 'admin_access_token'
 
-export function getTokenData() {
+export function getToken() {
   return Storage.get(TokenKey)
 }
 
-export function setTokenData(data) {
+export function setToken(data) {
   return Storage.set(TokenKey, data)
 }
 
-export function getToken() {
-  return getTokenData() ? getTokenData().access_token : null
-}
-
-export function removeTokenData() {
+export function removeToken() {
   return Storage.remove(TokenKey)
 }

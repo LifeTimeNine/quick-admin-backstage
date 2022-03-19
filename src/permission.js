@@ -3,8 +3,6 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { whitePaths, commonPaths } from './settings'
 import store from './store'
-import { removeTokenData } from './utils/token'
-import { ElMessage } from 'element-plus'
 
 function isWhitePath(path) {
   return whitePaths.indexOf(path) !== -1
@@ -33,15 +31,9 @@ router.beforeEach(async(to, from, next) => {
           await store.dispatch('user/getUserInfo')
           await store.dispatch('user/getMenu')
         } catch (error) {
-          removeTokenData()
-          ElMessage.error({
-            message: error || 'Error',
-            onClose() {
-              next(`/login?redirect=${to.path}`)
-              window.location.reload()
-              return
-            }
-          })
+          store.dispatch('user/removeToken')
+          next(`/login?redirect=${to.path}`)
+          return
         }
       }
       if (authPaths(to.path)) {

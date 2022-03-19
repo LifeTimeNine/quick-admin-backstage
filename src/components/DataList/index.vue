@@ -1,6 +1,6 @@
 <template>
   <div>
-      <el-form :model="queryOptions" ref="form" :inline="true">
+      <el-form v-if="!hideSearch" :model="queryOptions" ref="form" :inline="true">
         <slot name="search" :options="queryOptions" />
         <el-form-item>
           <el-button type="primary" @click="refresh" title="搜索">搜索</el-button>
@@ -15,7 +15,6 @@
         :data="list"
         border
         stripe
-        @sort-change="sortChange"
       >
         <template #default>
           <slot name="list-column" />
@@ -40,8 +39,7 @@
 <script>
 const defaultQueryOptions = {
   page: 1,
-  limit: 10,
-  order_rule: ''
+  limit: 10
 }
 export default {
   name: 'DataList',
@@ -114,14 +112,6 @@ export default {
     },
     getList() {
       return this.list
-    },
-    sortChange({ prop, order }) {
-      if (prop) {
-        this.queryOptions.order_rule = `${prop}.${order === 'ascending' ? 'asc' : 'desc'}`
-      } else {
-        this.queryOptions.order = null
-      }
-      this.refresh()
     }
   }
 }

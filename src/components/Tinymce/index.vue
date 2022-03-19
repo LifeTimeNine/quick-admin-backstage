@@ -26,10 +26,7 @@ export default {
         return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
       }
     },
-    value: {
-      type: String,
-      default: ''
-    },
+    modelValue: String,
     toolbar: {
       type: Array,
       required: false,
@@ -52,6 +49,7 @@ export default {
       default: 'auto'
     }
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       hasChange: false,
@@ -70,7 +68,7 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() =>
           window.tinymce.get(this.tinymceId).setContent(val || ''))
@@ -122,7 +120,7 @@ export default {
         imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
-        nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
+        nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp need Nonbreaking Space Plugin
         file_picker_types: 'media,image',
         file_picker_callback: (callback, value, meta) => {
           var input = document.createElement('input')
@@ -136,50 +134,35 @@ export default {
             if (this.files.length > 0) {
               var file = this.files[0]
               var loading = _this.$loading({
+                target: '.mce-reset',
                 lock: true,
                 text: '开始计算文件MD5',
-                spinner: 'el-icon-loading',
+                // spinner: 'loading',
                 background: 'rgba(0, 0, 0, 0.7)'
               })
               var upload = new Upload()
               upload.onMd5Progress((loaded, total) => {
-                loading = _this.$loading({
-                  lock: true,
-                  text: `MD5: ${Math.round(loaded / total * 10000) / 100}%`,
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.7)'
-                })
+                loading.setText(`MD5: ${Math.round(loaded / total * 10000) / 100}%`)
               }).onMd5After(() => {
-                loading = _this.$loading({
-                  lock: true,
-                  text: 'MD5计算完成',
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.7)'
-                })
+                loading.setText('MD5计算完成')
               }).onBefore(() => {
-                loading = _this.$loading({
-                  lock: true,
-                  text: '开始上传',
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.7)'
-                })
+                loading.setText('开始上传')
               }).onProgress((loaded, total) => {
-                loading = _this.$loading({
-                  lock: true,
-                  text: `上传: ${Math.round(loaded / total * 10000) / 100}%`,
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.7)'
-                })
+                loading.setText(`上传: ${Math.round(loaded / total * 10000) / 100}%`)
               }).onAfter(() => {
-                loading = _this.$loading({
-                  lock: true,
-                  text: `正在合并`,
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.7)'
-                })
-              }).save(file).then(url => {
+                loading.setText(`正在合并`)
+              })
+              var func;
+              if (meta.filetype === 'image') {
+                func = upload.save
+              } else {
+                func = upload.partSave
+              }
+              func(file).then(url => {
+                loading.setText('上传完成')
                 callback(url, { title: file.name })
               }).catch(() => {
+                loading.setText('上传失败')
                 _this.$message.error('上传失败')
               }).finally(() => {
                 loading.close()
@@ -189,13 +172,13 @@ export default {
           input.click()
         },
         init_instance_callback: editor => {
-          if (_this.value) {
-            editor.setContent(_this.value)
+          if (_this.modelValue) {
+            editor.setContent(_this.modelValue)
           }
           _this.hasInit = true
           editor.on('NodeChange Change KeyUp SetContent', () => {
             this.hasChange = true
-            this.$emit('input', editor.getContent())
+            this.$emit('update:modelValue', editor.getContent())
           })
         },
         setup(editor) {

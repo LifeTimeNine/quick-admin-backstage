@@ -1,6 +1,6 @@
 import nodes from '@/nodes'
 import { $get, $post } from '@/utils/request'
-import { getToken, removeTokenData, setTokenData } from '@/utils/token'
+import { getToken, removeToken, setToken } from '@/utils/token'
 
 const defaultState = () => {
   return {
@@ -17,7 +17,12 @@ const mutations = {
     Object.assign(state, defaultState())
   },
   SET_TOKEN: (state, token) => {
+    setToken(token)
     state.token = token
+  },
+  REMOVE_TOKEN: (state) => {
+    removeToken()
+    state.token = null
   },
   SET_USER_INFO: (state, userInfo) => {
     state.userInfo = userInfo
@@ -34,10 +39,21 @@ const mutations = {
 }
 
 const actions = {
+  setToken({ commit }, token) {
+    return new Promise((resolve) => {
+      commit('SET_TOKEN', token)
+      resolve()
+    })
+  },
+  removeToken({ commit }) {
+    return new Promise((resolve) => {
+      commit('REMOVE_TOKEN', null)
+      resolve()
+    })
+  },
   login({ commit }, data) {
     return new Promise((resolve, reject) => {
-      $post(nodes.auth.pwd, data).then((data) => {
-        setTokenData(data.map)
+      $post(nodes.systemUser.pwdLogin, data).then((data) => {
         commit('SET_TOKEN', data.map.access_token)
         resolve(data)
       }).catch(e => {
@@ -47,8 +63,8 @@ const actions = {
   },
   logout({ commit }) {
     return new Promise((resolve, reject) => {
-      $get(nodes.auth.logout).then(() => {
-        removeTokenData()
+      $get(nodes.systemUser.logout).then(() => {
+        removeToken()
         commit('RESET_STATE')
         resolve()
       }).catch(e => {

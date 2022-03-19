@@ -1,4 +1,6 @@
 export default {
+  pwdLogin: 'systemuser/pwdLogin',
+  logout: 'systemuser/logout',
   userInfo: 'systemuser/userInfo',
   getMenu: 'systemuser/getMenu',
   editUserInfo: 'systemuser/editUserInfo',

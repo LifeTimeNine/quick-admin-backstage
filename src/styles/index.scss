@@ -76,3 +76,19 @@ div:focus {
     font-size: 60px;
   }
 }
+.mce-container {
+  .mce-reset {
+    .el-loading-mask {
+      position: absolute;
+      .el-loading-spinner {
+        margin-top: calc((0px - var(--el-loading-spinner-size))/ 2);
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        .el-loading-text {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

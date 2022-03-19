@@ -1,9 +1,9 @@
 <template>
-  <div class="icon-box">
+  <div class="svg-icon">
     <svg v-if="iconClass && isSvgIcon" :class="svgClass" aria-hidden="true">
       <use :xlink:href="iconName" />
     </svg>
-    <component v-else-if="iconClass && !isElIcon" :is="'el-icon-' + iconClass" class="svg-icon" />
+    <component v-else-if="iconClass && !isElIcon" :is="'el-icon-' + iconClass" class="svg_icon" />
   </div>
 </template>
 
@@ -33,9 +33,9 @@ export default {
     },
     svgClass() {
       if (this.className) {
-        return 'svg-icon ' + this.className
+        return 'svg_icon ' + this.className
       } else {
-        return 'svg-icon'
+        return 'svg_icon'
       }
     }
   }
@@ -43,10 +43,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon-box {
+.svg-icon {
   display: inline-block;
 }
-.svg-icon {
+.svg_icon {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;

@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import ElementPlus, { ElLoading, ElMessage } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import VueClipboard from 'vue-clipboard2'
 import 'element-plus/dist/index.css'
 
 import App from './App.vue'
@@ -22,6 +23,7 @@ app.use(components)
 app.use(ElementPlus, {
   locale: zhCn
 })
+app.use(VueClipboard)
 app.use(icons)
 
 // 全局请求方法
