@@ -8,7 +8,7 @@
           <el-input v-model="row.sort" type="number" placeholder="0" min="0" max="100000000" :disabled="!auth($nodes.systemMenu.setSort)" @blur="sortChange(row)" />
         </template>
       </el-table-column>
-      <el-table-column label="图标" width="50">
+      <el-table-column label="图标" width="60">
         <template #default="{row}">
           <svg-icon :icon-class="row.icon" />
         </template>
@@ -94,7 +94,7 @@ export default {
           { required: true, message: '请选择父级菜单', trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
-              if (value === this.getFormDialog().row.id) {
+              if (value === this.getFormDialog.row.id) {
                 callback(new Error('不能选择当前菜单'))
               } else {
                 callback()
@@ -115,6 +115,14 @@ export default {
   computed: {
     getFormDialog() {
       return this.$refs['form-dialog']
+    }
+  },
+  watch: {
+    editItemPids: {
+      deep: true,
+      handler: function(val) {
+        this.getFormDialog.row.pid = val[val.length - 1]
+      }
     }
   },
   methods: {
@@ -207,6 +215,17 @@ export default {
   .cell {
     & > .el-link:nth-child(n+2) {
       margin-left: 1em;
+    }
+  }
+}
+.el-autocomplete-suggestion li {
+  &>p {
+    line-height: 1.4em;
+    margin: 0;
+    &:nth-child(2) {
+      font-size: 0.8em;
+      color: #909399;
+      margin-bottom: 0.8em;
     }
   }
 }

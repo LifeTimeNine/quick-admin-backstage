@@ -7,9 +7,12 @@ export default {
   modifyPwd: 'systemuser/modifyPwd',
   refresh: 'systemuser/refresh',
   list: 'systemuser/list',
+  recycleList: 'systemuser/recycleList',
   add: 'systemuser/add',
   edit: 'systemuser/edit',
   modifyStatus: 'systemuser/modifyStatus',
   softDelete: 'systemuser/softDelete',
+  restore: 'systemuser/restore',
+  del: 'systemuser/delete',
   resetPwd: 'systemuser/resetPwd'
 }
