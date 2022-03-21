@@ -3,6 +3,7 @@
     :title="title"
     v-model="opened"
     :width="width"
+    :close-on-click-modal="false"
     @close="closed"
   >
     <el-form ref="form" :model="row" :rules="rules" :label-width="labelWidth" :label-position="labelPosition" :size="size">
