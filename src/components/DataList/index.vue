@@ -11,6 +11,7 @@
         <slot name="actions" />
       </div>
       <el-table
+        ref="table"
         v-loading="tableLoading"
         :data="list"
         border
@@ -85,6 +86,11 @@ export default {
   },
   created() {
     this.refresh()
+  },
+  computed: {
+    table() {
+      return this.$refs['table']
+    }
   },
   methods: {
     refresh() {
