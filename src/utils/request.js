@@ -57,7 +57,7 @@ request.interceptors.response.use(
       } else {
         ElMessage.error(res.message)
       }
-      return Promise.reject()
+      return Promise.reject(res.message)
     } else {
       return res.data
     }
