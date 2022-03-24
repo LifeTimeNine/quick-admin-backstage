@@ -4,13 +4,6 @@
         <el-form-item>
           <el-input v-model="options.name" placeholder="名称" />
         </el-form-item>
-        <el-form-item>
-          <el-select v-model="options.status" placeholder="状态">
-          <el-option label="全部" value="" />
-          <el-option label="正常" value="1" />
-          <el-option label="禁用" value="2" />
-        </el-select>
-        </el-form-item>
       </template>
       <template #list-column>
         <el-table-column label="ID" prop="id" sortable min-width="60" />

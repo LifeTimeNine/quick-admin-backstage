@@ -25,6 +25,7 @@ router.beforeEach(async(to, from, next) => {
       next('/')
       NProgress.done()
     } else {
+      if (isWhitePath(to.path)) next()
       const username = store.getters.userInfo.username
       if (!username) {
         try {

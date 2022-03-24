@@ -2,8 +2,15 @@
   <data-list
       ref="data-list"
       :node="$nodes.systemUser.recycleList"
-      :hide-search="true"
     >
+      <template #search="{ options }">
+        <el-form-item>
+          <el-input v-model="options.username" placeholder="用户名" />
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="options.name" placeholder="姓名" />
+        </el-form-item>
+      </template>
       <template #list-column>
         <el-table-column label="ID" prop="id" sortable min-width="65" />
         <el-table-column label="头像" width="70">
