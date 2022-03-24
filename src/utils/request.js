@@ -63,7 +63,7 @@ request.interceptors.response.use(
     }
   },
   error => {
-    ElMessage.error(error.message)
+    ElMessage.error('服务器开小差了，请稍后再试')
     return Promise.reject(error)
   }
 )
