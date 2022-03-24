@@ -1,10 +1,18 @@
 {
   "name": "quick-admin-backstage",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "homepage": "https://github.com/LifeTimeNine/quick-admin-backstage",
+  "author": {
+    "name": "lifetime",
+    "email": "2390904403@qq.com"
+  },
+  "keywords": [
+    "admin",
+    "vue",
+    "element-plus"
+  ],
   "scripts": {
     "dev": "vue-cli-service serve",
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -18,7 +26,8 @@
     "vue": "^3.2.13",
     "vue-clipboard2": "^0.3.3",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "xlsx": "^0.18.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
