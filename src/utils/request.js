@@ -63,6 +63,7 @@ request.interceptors.response.use(
     }
   },
   error => {
+    ElMessage.error(error.message)
     return Promise.reject(error)
   }
 )
