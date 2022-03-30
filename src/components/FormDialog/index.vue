@@ -1,7 +1,7 @@
 <template>
   <el-dialog
-    :title="title"
     v-model="opened"
+    :title="title"
     :width="width"
     :close-on-click-modal="false"
     @close="closed"

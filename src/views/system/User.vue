@@ -60,7 +60,7 @@
               @click="$action([$nodes.systemUser.modifyStatus, { id: row.id, enable: 1 }, refreshList])"
             >启用</el-link>
             <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action([$nodes.systemUser.softDelete, { id: row.id }, refreshList])">>
-              <template #reference >
+              <template #reference>
                 <el-link v-auth="$nodes.systemUser.softDelete" type="danger">删除</el-link>
               </template>
             </el-popconfirm>

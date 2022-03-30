@@ -1,8 +1,8 @@
-import axios from "axios";
-import { ElMessage } from 'element-plus' 
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
 import { appName } from '@/settings'
-import router from "@/router"
-import store from "@/store"
+import router from '@/router'
+import store from '@/store'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_API + '/' + appName + '/',
@@ -68,7 +68,7 @@ request.interceptors.response.use(
   }
 )
 
-export function $get(url, params ={}, config = {}) {
+export function $get(url, params = {}, config = {}) {
   return request.get(url, Object.assign({}, { params }, config))
 }
 

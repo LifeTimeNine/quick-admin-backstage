@@ -1,39 +1,39 @@
 <template>
   <div>
-      <el-form v-if="!hideSearch" :model="queryOptions" ref="form" :inline="true">
-        <slot name="search" :options="queryOptions" />
-        <el-form-item>
-          <el-button type="primary" @click="refresh" title="搜索">搜索</el-button>
-          <el-button @click="resetQuery">重置</el-button>
-        </el-form-item>
-      </el-form>
-      <div class="actions">
-        <slot name="actions" />
-      </div>
-      <el-table
-        ref="table"
-        v-loading="tableLoading"
-        :data="list"
-        border
-        stripe
-      >
-        <template #default>
-          <slot name="list-column" />
-        </template>
-      </el-table>
-      <el-pagination
-        v-if="!hidePagination"
-        v-model:current-page="queryOptions.page"
-        v-model:page-size="queryOptions.limit"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-        background
-        :pager-count="7"
-        @size-change="pageSizeChange"
-        @current-change="pageChange"
-        @prev-click="pageChange"
-        @next-click="pageChange"
-      />
+    <el-form v-if="!hideSearch" ref="form" :model="queryOptions" :inline="true">
+      <slot name="search" :options="queryOptions" />
+      <el-form-item>
+        <el-button type="primary" title="搜索" @click="refresh">搜索</el-button>
+        <el-button @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+    <div class="actions">
+      <slot name="actions" />
+    </div>
+    <el-table
+      ref="table"
+      v-loading="tableLoading"
+      :data="list"
+      border
+      stripe
+    >
+      <template #default>
+        <slot name="list-column" />
+      </template>
+    </el-table>
+    <el-pagination
+      v-if="!hidePagination"
+      v-model:current-page="queryOptions.page"
+      v-model:page-size="queryOptions.limit"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+      background
+      :pager-count="7"
+      @size-change="pageSizeChange"
+      @current-change="pageChange"
+      @prev-click="pageChange"
+      @next-click="pageChange"
+    />
   </div>
 </template>
 
@@ -77,6 +77,11 @@ export default {
       total: 0
     }
   },
+  computed: {
+    table() {
+      return this.$refs['table']
+    }
+  },
   watch: {
     extendQuery() {
       if (this.extendQueryRefresh) {
@@ -86,11 +91,6 @@ export default {
   },
   created() {
     this.refresh()
-  },
-  computed: {
-    table() {
-      return this.$refs['table']
-    }
   },
   methods: {
     refresh() {

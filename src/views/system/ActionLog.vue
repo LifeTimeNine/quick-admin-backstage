@@ -28,8 +28,8 @@
       </template>
     </data-list>
     <el-dialog
-      title="详情"
       v-model="detailOpened"
+      title="详情"
       width="40%"
     >
       <el-row>

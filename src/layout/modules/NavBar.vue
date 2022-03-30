@@ -10,7 +10,7 @@
           <el-avatar size="large" shape="square" :src="userInfo.avatar" fit="fill">{{ userInfo.username }}</el-avatar>
           <svg-icon icon-class="caret-bottom" class="svg-icon" />
         </div>
-        <template #dropdown >
+        <template #dropdown>
           <el-dropdown-menu class="user-dropdown">
             <el-dropdown-item @click="onRefresh">刷新信息</el-dropdown-item>
             <el-dropdown-item divided @click="openEditUserInfo">个人资料</el-dropdown-item>
@@ -107,7 +107,7 @@ export default {
     },
     saveUserInfo(row, shutDown) {
       const loading = this.$loading()
-      this.$post(this.$nodes.systemUser.editUserInfo ,row).then(() => {
+      this.$post(this.$nodes.systemUser.editUserInfo, row).then(() => {
         this.$message.success('保存成功')
       }).finally(() => {
         loading.close()

@@ -23,10 +23,10 @@ const actions = {
   setSetting({ commit }, data) {
     commit('CHANGE_SETTING', data)
   },
-  mergeSetting({commit}, data) {
+  mergeSetting({ commit }, data) {
     commit('MERGE_SETTING', data)
   },
-  serverGet({commit}) {
+  serverGet({ commit }) {
     return new Promise((resolve, reject) => {
       $get(nodes.systemConfig.basic).then(({ map }) => {
         commit('MERGE_SETTING', map)

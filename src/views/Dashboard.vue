@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">欢迎你: {{userInfo.name}}</div>
+    <div class="dashboard-text">欢迎你: {{ userInfo.name }}</div>
   </div>
 </template>
 

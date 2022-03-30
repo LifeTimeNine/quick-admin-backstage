@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button v-auth="$nodes.systemMenu.add" type="primary" style="float: right; margin-bottom: 10px;" @click="add">新增</el-button>
-    <el-table :data="list" border stripe row-key="id"  :loading="tableLoading" @row-dblclick="dbClick">
+    <el-table :data="list" border stripe row-key="id" :loading="tableLoading" @row-dblclick="dbClick">
       <el-table-column label="ID" prop="id" />
       <el-table-column label="排序权重" width="100">
         <template #default="{row}">
@@ -109,9 +109,6 @@ export default {
       userMenuNodes: []
     }
   },
-  created() {
-    this.getList()
-  },
   computed: {
     getFormDialog() {
       return this.$refs['form-dialog']
@@ -125,11 +122,14 @@ export default {
       }
     }
   },
+  created() {
+    this.getList()
+  },
   methods: {
     auth,
     getList() {
       this.tableLoading = true
-      this.$get(this.$nodes.systemMenu.list).then(({list}) => {
+      this.$get(this.$nodes.systemMenu.list).then(({ list }) => {
         this.list = list
         this.selectList = [{ id: 0, title: '顶级菜单' }].concat(this.list)
       }).finally(() => {

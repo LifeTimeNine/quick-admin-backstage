@@ -53,8 +53,8 @@
             <el-link v-if="row.status == 1 && serverIsRunning" v-auth="$nodes.systemTask.exec" @click="$action([$nodes.systemTask.exec, {id: row.id}])">执行</el-link>
             <el-link v-auth="$nodes.systemTask.logList" type="info" @click="onLog(row)">日志</el-link>
             <el-link v-auth="$nodes.systemTask.edit" type="primary" @click="onEdit(row)">编辑</el-link>
-            <el-link v-if="row.status === 1" v-auth="$nodes.systemTask.modifyStatus" @click="$action([$nodes.systemTask.modifyStatus, {id: row.id, enable: 0}, refreshList])" type="warning">禁用</el-link>
-            <el-link v-else v-auth="$nodes.systemTask.modifyStatus" @click="$action([$nodes.systemTask.modifyStatus, {id: row.id, enable: 1}, refreshList])" type="success">启用</el-link>
+            <el-link v-if="row.status === 1" v-auth="$nodes.systemTask.modifyStatus" type="warning" @click="$action([$nodes.systemTask.modifyStatus, {id: row.id, enable: 0}, refreshList])">禁用</el-link>
+            <el-link v-else v-auth="$nodes.systemTask.modifyStatus" type="success" @click="$action([$nodes.systemTask.modifyStatus, {id: row.id, enable: 1}, refreshList])">启用</el-link>
             <el-popconfirm title="确定要删除这条数据吗？" class="delete-btn" @confirm="$action([$nodes.systemTask.del, { id: row.id }])">
               <template #reference>
                 <el-link v-auth="$nodes.systemTask.del" type="danger">删除</el-link>
@@ -87,40 +87,40 @@
       </template>
     </form-dialog>
     <el-dialog
-      title="执行日志"
       v-model="execLogOpened"
+      title="执行日志"
       width="60%"
       :destroy-on-close="true"
     >
-    <data-list :node="$nodes.systemTask.logList" :extend-query="{ stid: execLogId }" :hide-search="true">
-      <template #list-column>
-        <el-table-column label="ID" prop="id" />
-        <el-table-column label="进程ID" prop="pid" />
-        <el-table-column label="运行时长">
-          <template #default="{ row }">
-            {{ row.run_time }} S
-          </template>
-        </el-table-column>
-        <el-table-column label="执行结果">
-          <template #default="{ row }">
-            <el-tag v-if="row.result == 2" type="danger" size="small" effect="dark">失败</el-tag>
-            <el-tag v-else-if="row.result == 1" type="success" size="small" effect="dark">成功</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template #default="{ row }">
-            <el-button type="primary" size="small" @click="onOutput(row)">输出内容</el-button>
-          </template>
-        </el-table-column>
-      </template>
-    </data-list>
+      <data-list :node="$nodes.systemTask.logList" :extend-query="{ stid: execLogId }" :hide-search="true">
+        <template #list-column>
+          <el-table-column label="ID" prop="id" />
+          <el-table-column label="进程ID" prop="pid" />
+          <el-table-column label="运行时长">
+            <template #default="{ row }">
+              {{ row.run_time }} S
+            </template>
+          </el-table-column>
+          <el-table-column label="执行结果">
+            <template #default="{ row }">
+              <el-tag v-if="row.result == 2" type="danger" size="small" effect="dark">失败</el-tag>
+              <el-tag v-else-if="row.result == 1" type="success" size="small" effect="dark">成功</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template #default="{ row }">
+              <el-button type="primary" size="small" @click="onOutput(row)">输出内容</el-button>
+            </template>
+          </el-table-column>
+        </template>
+      </data-list>
       <template #footer>
         <el-button @click="execLogOpened = false">关闭</el-button>
       </template>
     </el-dialog>
     <el-dialog
-      title="输出"
       v-model="outputOpened"
+      title="输出"
       width="50%"
       custom-class="task-log-dialog"
     >
@@ -164,6 +164,14 @@ export default {
       output: null
     }
   },
+  computed: {
+    getForm() {
+      return this.$refs['form']
+    },
+    getOutput() {
+      return this.output.replace(/(\r\n|\r|\n)/g, '<br/>')
+    }
+  },
   created() {
     this.getStatus()
     this.interVal = setInterval(() => {
@@ -172,14 +180,6 @@ export default {
   },
   unmounted() {
     clearInterval(this.interVal)
-  },
-  computed: {
-    getForm() {
-      return this.$refs['form']
-    },
-    getOutput() {
-      return this.output.replace(/(\r\n|\r|\n)/g, '<br/>')
-    }
   },
   methods: {
     refreshList() {

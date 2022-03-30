@@ -3,7 +3,7 @@
     <svg v-if="iconClass && isSvgIcon" :class="svgClass" aria-hidden="true">
       <use :xlink:href="iconName" />
     </svg>
-    <component v-else-if="iconClass && !isElIcon" :is="'el-icon-' + iconClass" class="svg_icon" />
+    <component :is="'el-icon-' + iconClass" v-else-if="iconClass && !isElIcon" class="svg_icon" />
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
       return svgIcons.indexOf(this.iconClass) !== -1
     },
     isElIcon() {
-      return elIcons.indexOf(this.iconClass.replace('-', '').toLocaleLowerCase()) == -1
+      return elIcons.indexOf(this.iconClass.replace('-', '').toLocaleLowerCase()) === -1
     },
     iconName() {
       return `#icon-${this.iconClass}`

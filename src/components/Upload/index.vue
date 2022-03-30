@@ -25,9 +25,7 @@ import Upload from '@/utils/upload'
 export default {
   name: 'Upload',
   props: {
-    modelValue: {
-      type: String,
-    },
+    modelValue: String,
     part: {
       type: Boolean,
       default: false
@@ -41,7 +39,7 @@ export default {
       default: '*'
     }
   },
-  emits: ['update:modelValue','on-status','on-progress','on-success','on-fail'],
+  emits: ['update:modelValue', 'on-status', 'on-progress', 'on-success', 'on-fail'],
   data() {
     return {
       btn_txt: '选择文件',

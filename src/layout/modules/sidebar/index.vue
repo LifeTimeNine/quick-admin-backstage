@@ -15,7 +15,7 @@
       >
         <app-link to="/dashboard">
           <el-menu-item index="-1">
-            <svg-icon icon-class="dashboard"/>
+            <svg-icon icon-class="dashboard" />
             <span>仪表盘</span>
           </el-menu-item>
         </app-link>

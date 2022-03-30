@@ -7,10 +7,10 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="options.status" placeholder="状态">
-          <el-option label="全部" value="" />
-          <el-option label="正常" value="1" />
-          <el-option label="禁用" value="2" />
-        </el-select>
+            <el-option label="全部" value="" />
+            <el-option label="正常" value="1" />
+            <el-option label="禁用" value="2" />
+          </el-select>
         </el-form-item>
       </template>
       <template #actions>
@@ -23,8 +23,8 @@
         <el-table-column label="创建时间" prop="create_time" width="160" />
         <el-table-column label="操作" width="180">
           <template #default="{ row }">
-            <el-link v-auth="$nodes.systemRole.modifyRoleNodes"  @click="setNodes(row)">授权</el-link>
-            <el-link v-auth="$nodes.systemRole.edit"  type="primary" @click="edit(row)">编辑</el-link>
+            <el-link v-auth="$nodes.systemRole.modifyRoleNodes" @click="setNodes(row)">授权</el-link>
+            <el-link v-auth="$nodes.systemRole.edit" type="primary" @click="edit(row)">编辑</el-link>
             <el-link
               v-if="row.status === 1"
               v-auth="$nodes.systemRole.modifyStatus"
@@ -39,7 +39,7 @@
             >启用</el-link>
             <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action([$nodes.systemRole.softDelete, { id: row.id }, refreshList])">
               <template #reference>
-                <el-link v-auth="$nodes.systemRole.softDelete"  type="danger">删除</el-link>
+                <el-link v-auth="$nodes.systemRole.softDelete" type="danger">删除</el-link>
               </template>
             </el-popconfirm>
           </template>
@@ -61,8 +61,8 @@
       </template>
     </form-dialog>
     <el-dialog
-      title="授权"
       v-model="setNodesFormOpened"
+      title="授权"
       width="40%"
     >
       <el-tree

@@ -36,8 +36,8 @@
       </template>
     </data-list>
     <el-dialog
-      :title="editForm.id ? '编辑' : '添加'"
       v-model="editFormOpened"
+      :title="editForm.id ? '编辑' : '添加'"
       width="50%"
       @closed="editFormClose"
     >
@@ -212,7 +212,7 @@ export default {
     editFormClose() {
       this.$refs['editForm'].clearValidate()
     }
-  },
+  }
 }
 </script>
 

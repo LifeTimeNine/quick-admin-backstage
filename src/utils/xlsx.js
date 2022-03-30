@@ -1,14 +1,14 @@
 import * as XLSX from 'xlsx'
 
 function dateNum(v, date1904) {
-  if (date1904) v += 1462;
-  var epoch = Date.parse(v);
-  return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
+  if (date1904) v += 1462
+  var epoch = Date.parse(v)
+  return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000)
 }
 
 export function Workbook() {
-  this.SheetNames = [];
-  this.Sheets = {};
+  this.SheetNames = []
+  this.Sheets = {}
   /**
    * 添加 Sheet
    * @param {string} name
@@ -41,7 +41,7 @@ export function WorkSheet() {
     this['!cols'] = value
   }
   this.setFullRef = function(value) {
-    this["!fullref"] = value
+    this['!fullref'] = value
   }
   this.setRef = function(value) {
     this['!ref'] = value
@@ -77,7 +77,7 @@ export function WorkSheet() {
     } else {
       cell.t = 's'
     }
-    this[XLSX.utils.encode_cell({c, r})] = cell
+    this[XLSX.utils.encode_cell({ c, r })] = cell
     if (c > range.e.c) range.e.c = c
     if (r > range.e.r) range.e.r = r
   }
