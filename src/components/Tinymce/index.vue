@@ -26,7 +26,10 @@ export default {
         return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
       }
     },
-    modelValue: String,
+    modelValue: {
+      type: String,
+      required: true
+    },
     toolbar: {
       type: Array,
       required: false,

@@ -36,9 +36,12 @@
 import Upload from '@/utils/upload'
 import { percentage } from '@/utils'
 export default {
-  name: 'Upload',
+  name: 'UpLoad',
   props: {
-    modelValue: String,
+    modelValue: {
+      type: String,
+      required: true
+    },
     part: {
       type: Boolean,
       default: false

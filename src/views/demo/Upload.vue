@@ -9,7 +9,7 @@
       image-width   图片宽
       image-height  图片高
       multiple  是否支持多选文件
-      on-status 状态改变事件 (status) 1-未开始 2-正在计算MD5 3-正在上传 4-正在合并 5-上传成功 6-上传失败
+      on-status 状态改变事件 (status) 1-未开始 2-开始计算MD5 3-MD5计算完成 4-开始上传 5-正在合并 6-上传成功 7-上传失败
       on-progress 上传进度事件 (type, progress) type:类型 1-MD5计算进度 2-上传进度；progress：进度百分比
       on-success  上传成功事件 (success)
       on-faill  上传失败事件
