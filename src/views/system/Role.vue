@@ -14,7 +14,7 @@
         </el-form-item>
       </template>
       <template #actions>
-        <el-button v-auth="$nodes.systemRole.add" type="primary" @click="add">新增</el-button>
+        <el-button v-auth="$nodes.systemRole.add" type="primary" @click="onAdd">新增</el-button>
       </template>
       <template #list-column>
         <el-table-column label="ID" prop="id" sortable min-width="60" />
@@ -23,21 +23,21 @@
         <el-table-column label="创建时间" prop="create_time" width="160" />
         <el-table-column label="操作" width="180">
           <template #default="{ row }">
-            <el-link v-auth="$nodes.systemRole.modifyRoleNodes" @click="setNodes(row)">授权</el-link>
-            <el-link v-auth="$nodes.systemRole.edit" type="primary" @click="edit(row)">编辑</el-link>
+            <el-link v-auth="$nodes.systemRole.modifyRoleNodes" @click="onSetNodes(row)">授权</el-link>
+            <el-link v-auth="$nodes.systemRole.edit" type="primary" @click="onEdit(row)">编辑</el-link>
             <el-link
               v-if="row.status === 1"
               v-auth="$nodes.systemRole.modifyStatus"
               type="warning"
-              @click="$action([$nodes.systemRole.modifyStatus, { id: row.id, enable: 0 }, refreshList])"
+              @click="$action($nodes.systemRole.modifyStatus, { id: row.id, enable: 0 }, refreshList)"
             >禁用</el-link>
             <el-link
               v-else
               v-auth="$nodes.systemRole.modifyStatus"
               type="success"
-              @click="$action([$nodes.systemRole.modifyStatus, { id: row.id, enable: 1 }, refreshList])"
+              @click="$action($nodes.systemRole.modifyStatus, { id: row.id, enable: 1 }, refreshList)"
             >启用</el-link>
-            <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action([$nodes.systemRole.softDelete, { id: row.id }, refreshList])">
+            <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action($nodes.systemRole.softDelete, { id: row.id }, refreshList)">
               <template #reference>
                 <el-link v-auth="$nodes.systemRole.softDelete" type="danger">删除</el-link>
               </template>
@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import { add, edit, getRoleNodes, getUserNodeTree, modifyRoleNodes } from '@/apis/modules/systemRole'
 export default {
   name: 'SystemRole',
   data() {
@@ -110,10 +111,10 @@ export default {
     refreshList() {
       this.$refs['data-list'].refresh()
     },
-    add() {
+    onAdd() {
       this.formDialog.open()
     },
-    edit(row) {
+    onEdit(row) {
       this.formDialog.open({
         id: row.id,
         name: row.name,
@@ -122,8 +123,8 @@ export default {
     },
     formOnSave(row, shutDown) {
       const loading = this.$loading()
-      const node = row.id ? this.$nodes.systemRole.edit : this.$nodes.systemRole.add
-      this.$post(node, row).then(() => {
+      const func = row.id ? edit : add
+      func(row).then(() => {
         this.$message.success('保存成功')
         this.refreshList()
         shutDown()
@@ -131,13 +132,13 @@ export default {
         loading.close()
       })
     },
-    setNodes(row) {
+    onSetNodes(row) {
       if (this.userNodeTree.length === 0) {
-        this.$get(this.$nodes.systemRole.getUserNodeTree).then(({ list }) => {
+        getUserNodeTree().then(({ list }) => {
           this.userNodeTree = list
         })
       }
-      this.$get(this.$nodes.systemRole.getRoleNodes, { srid: row.id }).then(({ list }) => {
+      getRoleNodes({ srid: row.id }).then(({ list }) => {
         this.$refs['nodeTree'].setCheckedKeys(list, true)
         this.setNodesId = row.id
       })
@@ -145,7 +146,7 @@ export default {
     },
     saveNodes() {
       const loading = this.$loading()
-      this.$post(this.$nodes.systemRole.modifyRoleNodes, {
+      modifyRoleNodes({
         srid: this.setNodesId,
         nodes: this.$refs['nodeTree'].getCheckedNodes(true).map(item => item.node)
       }).then(() => {

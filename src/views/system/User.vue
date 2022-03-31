@@ -20,7 +20,7 @@
         </el-form-item>
       </template>
       <template #actions>
-        <el-button v-auth="$nodes.systemUser.add" type="primary" @click="add">新增</el-button>
+        <el-button v-auth="$nodes.systemUser.add" type="primary" @click="onAdd">新增</el-button>
       </template>
       <template #list-column>
         <el-table-column label="ID" prop="id" sortable min-width="65" />
@@ -41,7 +41,7 @@
         <el-table-column label="最后登录IP" prop="last_login_ip" min-width="140" />
         <el-table-column label="操作" width="210">
           <template #default="{ row }">
-            <el-popconfirm title="确定要重置此用户的密码吗？" @confirm="$action([$nodes.systemUser.resetPwd, { id: row.id }])">
+            <el-popconfirm title="确定要重置此用户的密码吗？" @confirm="$action($nodes.systemUser.resetPwd, { id: row.id })">
               <template #reference>
                 <el-link v-auth="$nodes.systemUser.resetPwd">重置密码</el-link>
               </template>
@@ -51,15 +51,15 @@
               v-if="row.status === 1"
               v-auth="$nodes.systemUser.modifyStatus"
               type="warning"
-              @click="$action([$nodes.systemUser.modifyStatus, { id: row.id, enable: 0 }, refreshList])"
+              @click="$action($nodes.systemUser.modifyStatus, { id: row.id, enable: 0 }, refreshList)"
             >禁用</el-link>
             <el-link
               v-else
               v-auth="$nodes.systemUser.modifyStatus"
               type="success"
-              @click="$action([$nodes.systemUser.modifyStatus, { id: row.id, enable: 1 }, refreshList])"
+              @click="$action($nodes.systemUser.modifyStatus, { id: row.id, enable: 1 }, refreshList)"
             >启用</el-link>
-            <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action([$nodes.systemUser.softDelete, { id: row.id }, refreshList])">>
+            <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action($nodes.systemUser.softDelete, { id: row.id }, refreshList)">>
               <template #reference>
                 <el-link v-auth="$nodes.systemUser.softDelete" type="danger">删除</el-link>
               </template>
@@ -95,6 +95,8 @@
 </template>
 
 <script>
+import { getUserRole } from '@/apis/modules/systemRole'
+import { add, edit } from '@/apis/modules/systemUser'
 export default {
   name: 'SystemUser',
   data() {
@@ -127,12 +129,12 @@ export default {
     },
     getRoles() {
       if (this.userRoles.length === 0) {
-        this.$get(this.$nodes.systemRole.getUserRole).then(({ list }) => {
+        getUserRole().then(({ list }) => {
           this.userRoles = list
         })
       }
     },
-    add() {
+    onAdd() {
       this.getRoles()
       this.formDialog.open()
     },
@@ -148,8 +150,8 @@ export default {
     },
     onSave(row, shutDown) {
       const loading = this.$loading()
-      const node = row.id ? this.$nodes.systemUser.edit : this.$nodes.systemUser.add
-      this.$post(node, row).then(() => {
+      const func = row.id ? edit : add
+      func(row).then(() => {
         this.$message.success('操作成功')
         shutDown()
         this.refreshList()

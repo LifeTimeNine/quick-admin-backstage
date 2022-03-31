@@ -1,6 +1,5 @@
-import nodes from '@/nodes'
+import { basic } from '@/apis/modules/systemConfig'
 import defaultSettings from '@/settings'
-import { $get } from '@/utils/request'
 
 const { system_name, fixedHeader, sidebarLogo } = defaultSettings
 
@@ -28,7 +27,7 @@ const actions = {
   },
   serverGet({ commit }) {
     return new Promise((resolve, reject) => {
-      $get(nodes.systemConfig.basic).then(({ map }) => {
+      basic().then(({ map }) => {
         commit('MERGE_SETTING', map)
         resolve({ map })
       }).catch(e => {

@@ -8,9 +8,9 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import components from './components'
-import request from './utils/request'
+import { get, post } from './utils/request'
 import icons from './icons'
-import nodes from './nodes'
+import nodes from './apis/nodes'
 import directive from './directive'
 
 import '@/styles/index.scss'
@@ -27,9 +27,9 @@ app.use(VueClipboard)
 app.use(icons)
 
 // 全局请求方法
-Object.keys(request).forEach(key => {
-  app.config.globalProperties[key] = request[key]
-})
+app.config.globalProperties.$get = get
+app.config.globalProperties.$post = post
+
 // 自定义指令
 Object.keys(directive).forEach(key => {
   app.directive(key, directive[key])
@@ -38,13 +38,10 @@ Object.keys(directive).forEach(key => {
 // 全局节点
 app.config.globalProperties.$nodes = nodes
 // 全局快捷操作
-app.config.globalProperties.$action = (params = []) => {
-  const node = params[0] || null
+app.config.globalProperties.$action = (node, data = {}, callback = null) => {
   if (!node) return
-  const data = params[1] || {}
-  const callback = params[2] || null
   const loading = ElLoading.service()
-  request.$post(node, data).then(() => {
+  post(node, data).then(() => {
     ElMessage.success('操作成功')
     if (typeof callback === 'function') callback()
   }).finally(() => {

@@ -89,7 +89,7 @@
         <el-col :span="18">{{ detail.resolve_time }}</el-col>
       </el-row>
       <template #footer>
-        <el-button v-if="detail.status == 1" v-auth="$nodes.systemErrorLog.resolve" type="primary" @click="$action([$nodes.systemErrorLog.resolve, { id: detail.id }, resolveSuccess])">处理</el-button>
+        <el-button v-if="detail.status == 1" v-auth="$nodes.systemErrorLog.resolve" type="primary" @click="$action($nodes.systemErrorLog.resolve, { id: detail.id }, resolveSuccess)">处理</el-button>
         <el-button @click="detailOpened = false">关闭</el-button>
       </template>
     </el-dialog>

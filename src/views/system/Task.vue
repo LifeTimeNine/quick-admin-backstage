@@ -50,12 +50,12 @@
         <el-table-column label="创建时间" prop="create_time" width="140" />
         <el-table-column label="操作" width="180">
           <template #default="{ row }">
-            <el-link v-if="row.status == 1 && serverIsRunning" v-auth="$nodes.systemTask.exec" @click="$action([$nodes.systemTask.exec, {id: row.id}])">执行</el-link>
+            <el-link v-if="row.status == 1 && serverIsRunning" v-auth="$nodes.systemTask.exec" @click="$action($nodes.systemTask.exec, { id: row.id })">执行</el-link>
             <el-link v-auth="$nodes.systemTask.logList" type="info" @click="onLog(row)">日志</el-link>
             <el-link v-auth="$nodes.systemTask.edit" type="primary" @click="onEdit(row)">编辑</el-link>
-            <el-link v-if="row.status === 1" v-auth="$nodes.systemTask.modifyStatus" type="warning" @click="$action([$nodes.systemTask.modifyStatus, {id: row.id, enable: 0}, refreshList])">禁用</el-link>
-            <el-link v-else v-auth="$nodes.systemTask.modifyStatus" type="success" @click="$action([$nodes.systemTask.modifyStatus, {id: row.id, enable: 1}, refreshList])">启用</el-link>
-            <el-popconfirm title="确定要删除这条数据吗？" class="delete-btn" @confirm="$action([$nodes.systemTask.del, { id: row.id }])">
+            <el-link v-if="row.status === 1" v-auth="$nodes.systemTask.modifyStatus" type="warning" @click="$action($nodes.systemTask.modifyStatus, { id: row.id, enable: 0 }, refreshList)">禁用</el-link>
+            <el-link v-else v-auth="$nodes.systemTask.modifyStatus" type="success" @click="$action($nodes.systemTask.modifyStatus, { id: row.id, enable: 1 }, refreshList)">启用</el-link>
+            <el-popconfirm title="确定要删除这条数据吗？" class="delete-btn" @confirm="$action($nodes.systemTask.del, { id: row.id })">
               <template #reference>
                 <el-link v-auth="$nodes.systemTask.del" type="danger">删除</el-link>
               </template>
@@ -135,6 +135,7 @@
 </template>
 
 <script>
+import { add, edit, status } from '@/apis/modules/systemTask'
 export default {
   name: 'SystemTask',
   data() {
@@ -186,7 +187,7 @@ export default {
       return this.$refs['data-list'].refresh()
     },
     getStatus() {
-      this.$get(this.$nodes.systemTask.status).then(({ map }) => {
+      status().then(({ map }) => {
         const { running, command } = map
         this.serverIsRunning = running
         this.serverCommand = command
@@ -216,8 +217,8 @@ export default {
     },
     onSave(row, shutDown) {
       const loading = this.$loading()
-      const node = row.id ? this.$nodes.systemTask.edit : this.$nodes.systemTask.add
-      this.$post(node, row).then(() => {
+      const func = row.id ? edit : add
+      func(row).then(() => {
         this.$message.success('保存成功')
         this.refreshList()
         shutDown()

@@ -1,7 +1,6 @@
 import SparkMd5 from 'spark-md5'
-import nodes from '@/nodes'
-import { $post } from '@/utils/request'
 import Axios from 'axios'
+import { info, partComplete, partInfo, partOptions as getPartOptions } from '@/apis/modules/upload'
 
 const Upload = function(options = {}) {
   // 异步上传
@@ -130,7 +129,7 @@ const Upload = function(options = {}) {
     return new Promise((resolve, reject) => {
       fileMd5(file).then(md5 => {
         callback(beforeCallback)
-        $post(nodes.upload.info, {
+        info({
           fileName: file.name,
           fileMd5: md5
         }).then(data => {
@@ -173,7 +172,7 @@ const Upload = function(options = {}) {
     return new Promise((resolve, reject) => {
       fileMd5(file).then(md5 => {
         callback(beforeCallback)
-        $post(nodes.upload.partInfo, {
+        partInfo({
           fileName: file.name,
           fileMd5: md5
         }).then(data => {
@@ -205,7 +204,7 @@ const Upload = function(options = {}) {
               if (partOptions.length <= 4 && applyNum < partNum && getOptionsTaskNum === 0) {
                 var startNumber = applyNum + 1
                 var endNUmber = startNumber + 10 >= partNum ? partNum + 1 : startNumber + 10
-                $post(nodes.upload.partOptions, {
+                getPartOptions({
                   fileName: file.name,
                   fileMd5: md5,
                   uploadId,
@@ -251,7 +250,7 @@ const Upload = function(options = {}) {
                       for (var item in completePart) {
                         parts.push({ partNumber: parseInt(item), etag: completePart[item].etag })
                       }
-                      $post(nodes.upload.partComplete, {
+                      partComplete({
                         fileName: file.name,
                         fileMd5: md5,
                         uploadId,

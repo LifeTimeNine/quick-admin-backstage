@@ -24,15 +24,15 @@
             v-if="row.status === 1"
             v-auth="$nodes.systemMenu.modifyStatus"
             type="warning"
-            @click="$action([$nodes.systemMenu.modifyStatus, { id: row.id, enable: 0 }, getList])"
+            @click="$action($nodes.systemMenu.modifyStatus, { id: row.id, enable: 0 }, getList)"
           >禁用</el-link>
           <el-link
             v-else
             v-auth="$nodes.systemMenu.modifyStatus"
             type="success"
-            @click="$action([$nodes.systemMenu.modifyStatus, { id: row.id, enable: 1 }, getList])"
+            @click="$action($nodes.systemMenu.modifyStatus, { id: row.id, enable: 1 }, getList)"
           >启用</el-link>
-          <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action([$nodes.systemMenu.softDelete, { id: row.id }, getList])">
+          <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action($nodes.systemMenu.softDelete, { id: row.id }, getList)">
             <template #reference>
               <el-link v-auth="$nodes.systemMenu.softDelete" type="danger">删除</el-link>
             </template>
@@ -81,6 +81,7 @@
 
 <script>
 import auth from '@/utils/auth'
+import { add, edit, getUserMenuNodes, list, setSort } from '@/apis/modules/systemMenu'
 export default {
   name: 'SystemMenu',
   data() {
@@ -129,7 +130,7 @@ export default {
     auth,
     getList() {
       this.tableLoading = true
-      this.$get(this.$nodes.systemMenu.list).then(({ list }) => {
+      list().then(({ list }) => {
         this.list = list
         this.selectList = [{ id: 0, title: '顶级菜单' }].concat(this.list)
       }).finally(() => {
@@ -156,7 +157,7 @@ export default {
     },
     sortChange(row) {
       const loading = this.$loading()
-      this.$post(this.$nodes.systemMenu.setSort, { id: row.id, sort: row.sort }).then(() => {
+      setSort({ id: row.id, sort: row.sort }).then(() => {
         this.$message.success('排序权重设置成功')
       }).finally(() => {
         this.getList()
@@ -164,9 +165,9 @@ export default {
       })
     },
     onSave(row, shutDown) {
-      const node = row.id ? this.$nodes.systemMenu.edit : this.$nodes.systemMenu.add
+      const func = row.id ? edit : add
       const loading = this.$loading()
-      this.$post(node, row).then(() => {
+      func(row).then(() => {
         this.$message.success('保存成功')
         this.getList()
         shutDown()
@@ -191,7 +192,7 @@ export default {
     },
     getMenuNodes() {
       if (this.userMenuNodes.length === 0) {
-        this.$get(this.$nodes.systemMenu.getUserMenuNodes).then(({ list }) => {
+        getUserMenuNodes().then(({ list }) => {
           this.userMenuNodes = list
         })
       }

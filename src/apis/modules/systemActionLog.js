@@ -1,3 +1,4 @@
-export default {
+
+export const nodes = {
   list: 'systemactionlog/list'
 }

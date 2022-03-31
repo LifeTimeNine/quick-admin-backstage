@@ -68,15 +68,26 @@ request.interceptors.response.use(
   }
 )
 
-export function $get(url, params = {}, config = {}) {
-  return request.get(url, Object.assign({}, { params }, config))
+/**
+ * GET 请求
+ * @param {String} node 权限节点
+ * @param {Object} params 请求Query参数
+ * @param {Object} config 其他Axios支持的参数
+ * @returns Promise
+ */
+export function get(node, params = {}, config = {}) {
+  return request.get(node, Object.assign({}, { params }, config))
 }
 
-export function $post(url, data = {}, config = {}) {
-  return request.post(url, data, config)
+/**
+ * POST 请求
+ * @param {String} node 权限节点
+ * @param {Object} data 请求Body数据
+ * @param {Object} config 其他Axios支持的参数
+ * @returns Promise
+ */
+export function post(node, data = {}, config = {}) {
+  return request.post(node, data, config)
 }
 
-export default {
-  $get,
-  $post
-}
+export default request

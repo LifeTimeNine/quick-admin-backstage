@@ -12,12 +12,12 @@
       <el-table-column label="创建时间" prop="create_time" width="160" />
       <el-table-column label="操作" width="180">
         <template #default="{ row }">
-          <el-popconfirm title="确定要恢复这条数据吗？" @confirm="$action([$nodes.systemRole.restore, { id: row.id }, refreshList])">
+          <el-popconfirm title="确定要恢复这条数据吗？" @confirm="$action($nodes.systemRole.restore, { id: row.id }, refreshList)">
             <template #reference>
               <el-link v-auth="$nodes.systemRole.restore" type="success">恢复</el-link>
             </template>
           </el-popconfirm>
-          <el-popconfirm title="确定要永久删除这条数据吗？" @confirm="$action([$nodes.systemRole.del, { id: row.id }, refreshList])">
+          <el-popconfirm title="确定要永久删除这条数据吗？" @confirm="$action($nodes.systemRole.del, { id: row.id }, refreshList)">
             <template #reference>
               <el-link v-auth="$nodes.systemRole.del" type="danger">永久删除</el-link>
             </template>

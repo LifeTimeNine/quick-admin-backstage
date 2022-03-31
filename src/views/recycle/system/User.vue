@@ -30,12 +30,12 @@
       <el-table-column label="最后登录IP" prop="last_login_ip" min-width="140" />
       <el-table-column label="操作" width="210">
         <template #default="{ row }">
-          <el-popconfirm title="确定要恢复这条数据吗？" @confirm="$action([$nodes.systemUser.restore, { id: row.id }, refreshList])">>
+          <el-popconfirm title="确定要恢复这条数据吗？" @confirm="$action($nodes.systemUser.restore, { id: row.id }, refreshList)">>
             <template #reference>
               <el-link v-auth="$nodes.systemUser.restore" type="success">恢复</el-link>
             </template>
           </el-popconfirm>
-          <el-popconfirm title="确定要永久删除这条数据吗？" @confirm="$action([$nodes.systemUser.delete, { id: row.id }, refreshList])">>
+          <el-popconfirm title="确定要永久删除这条数据吗？" @confirm="$action($nodes.systemUser.delete, { id: row.id }, refreshList)">>
             <template #reference>
               <el-link v-auth="$nodes.systemUser.del" type="danger">永久删除</el-link>
             </template>

@@ -1,5 +1,4 @@
-import nodes from '@/nodes'
-import { $get, $post } from '@/utils/request'
+import { getMenu, logout, pwdLogin, userInfo } from '@/apis/modules/systemUser'
 import { getToken, removeToken, setToken } from '@/utils/token'
 
 const defaultState = () => {
@@ -53,7 +52,7 @@ const actions = {
   },
   login({ commit }, data) {
     return new Promise((resolve, reject) => {
-      $post(nodes.systemUser.pwdLogin, data).then((data) => {
+      pwdLogin(data).then((data) => {
         commit('SET_TOKEN', data.map.access_token)
         resolve(data)
       }).catch(e => {
@@ -63,7 +62,7 @@ const actions = {
   },
   logout({ commit }) {
     return new Promise((resolve, reject) => {
-      $get(nodes.systemUser.logout).then(() => {
+      logout().then(() => {
         removeToken()
         commit('RESET_STATE')
         resolve()
@@ -74,7 +73,7 @@ const actions = {
   },
   getUserInfo({ commit }) {
     return new Promise((resolve, reject) => {
-      $get(nodes.systemUser.userInfo).then((data) => {
+      userInfo().then((data) => {
         const map = data.map
         commit('SET_USER_INFO', {
           username: map.username,
@@ -91,7 +90,7 @@ const actions = {
   },
   getMenu({ commit }) {
     return new Promise((resolve, reject) => {
-      $get(nodes.systemUser.getMenu).then(data => {
+      getMenu().then(data => {
         const { menus, nodes } = data.map
         commit('SET_MENUS', menus)
         commit('SET_NODES', nodes)

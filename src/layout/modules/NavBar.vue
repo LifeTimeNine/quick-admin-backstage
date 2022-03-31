@@ -63,6 +63,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from './Breadcrumb'
 import Hamburger from './Hamburger'
 import SparkMD5 from 'spark-md5'
+import { editUserInfo, modifyPwd, refresh } from '@/apis/modules/systemUser'
 
 export default {
   name: 'navBar',
@@ -107,7 +108,7 @@ export default {
     },
     saveUserInfo(row, shutDown) {
       const loading = this.$loading()
-      this.$post(this.$nodes.systemUser.editUserInfo, row).then(() => {
+      editUserInfo(row).then(() => {
         this.$message.success('保存成功')
       }).finally(() => {
         loading.close()
@@ -120,7 +121,7 @@ export default {
     },
     savePwd(row, shutDown) {
       const loading = this.$loading()
-      this.$post(this.$nodes.systemUser.modifyPwd, {
+      modifyPwd({
         old_password: SparkMD5.hash(row.old_password),
         new_password: SparkMD5.hash(row.new_password),
         confirm_password: SparkMD5.hash(row.confirm_password)
@@ -132,7 +133,7 @@ export default {
       })
     },
     onRefresh() {
-      this.$get(this.$nodes.systemUser.refresh).then(async() => {
+      refresh().then(async() => {
         await this.$store.dispatch('user/getUserInfo')
         await this.$store.dispatch('user/getMenu')
         this.$message.success('刷新成功')

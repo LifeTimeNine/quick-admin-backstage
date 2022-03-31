@@ -30,7 +30,7 @@
         <el-table-column label="操作">
           <template #default="{ row }">
             <el-link v-auth="$nodes.systemConfig.edit" type="primary" @click="onEdit(row)">编辑</el-link>
-            <el-link v-auth="$nodes.systemConfig.del" type="danger" @click="onDel(row)">删除</el-link>
+            <el-link v-auth="$nodes.systemConfig.del" type="danger" @click="$action($nodes.systemConfig.del, { id: row.id }, refreshList)">删除</el-link>
           </template>
         </el-table-column>
       </template>
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { add, edit } from '@/apis/modules/systemConfig'
 const defaultEditForm = {
   key: '',
   name: '',
@@ -179,9 +180,9 @@ export default {
     save() {
       this.$refs['editForm'].validate(valid => {
         if (!valid) return false
-        const node = this.addEdit ? this.$nodes.systemConfig.add : this.$nodes.systemConfig.edit
+        const func = this.addEdit ? edit : add
         const loading = this.$loading()
-        this.$post(node, this.editForm).then(() => {
+        func(this.editForm).then(() => {
           this.$message.success('保存成功')
           this.editFormOpened = false
           this.refreshList()
@@ -199,15 +200,6 @@ export default {
     },
     editValueItemDel(index) {
       this.tmpValue.splice(index, 1)
-    },
-    onDel(row) {
-      const loading = this.$loading()
-      this.$post(this.$nodes.systemConfig.del, { key: row.key }).then(() => {
-        this.$message.success('删除成功')
-        this.refreshList()
-      }).finally(() => {
-        loading.close()
-      })
     },
     editFormClose() {
       this.$refs['editForm'].clearValidate()
