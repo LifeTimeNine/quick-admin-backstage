@@ -1,7 +1,7 @@
 import SvgIcon from './SvgIcon'
 import DataList from './DataList'
 import FormDialog from './FormDialog'
-import Upload from './Upload'
+import Upload from './Upload/index.vue'
 
 export default {
   install: Vue => {

@@ -9,6 +9,8 @@
       image-width   图片宽
       image-height  图片高
       multiple  是否支持多选文件
+      disabled  是否禁用上传
+      limit  允许上传文件的最大数量
       on-status 状态改变事件 (status) 1-未开始 2-开始计算MD5 3-MD5计算完成 4-开始上传 5-正在合并 6-上传成功 7-上传失败
       on-progress 上传进度事件 (type, progress) type:类型 1-MD5计算进度 2-上传进度；progress：进度百分比
       on-success  上传成功事件 (success)
@@ -18,14 +20,14 @@
       ref="upload"
       v-model="url"
       :part="true"
-      type="image"
+      type="button"
       :multiple="true"
+      :limit="3"
       @on-status="onStatus"
       @on-progress="onProgress"
       @on-success="onSuccess"
       @on-fail="onFail"
     />
-    <el-button size="default" @click="clear">清除</el-button>
   </div>
 </template>
 
@@ -34,7 +36,7 @@ export default {
   name: 'DemoUpload',
   data() {
     return {
-      url: ''
+      url: ['http://dev.quick-admin.com/storage/b5/cfc1209181f9bac0f80b4e9de8160f.gif', 'http://dev.quick-admin.com/storage/b5/cfc1209181f9bac0f80b4e9de8160f.gif']
     }
   },
   methods: {
@@ -49,9 +51,6 @@ export default {
     },
     onFail() {
       console.log('fail')
-    },
-    clear() {
-      this.$refs['upload'].clear()
     }
   }
 }
