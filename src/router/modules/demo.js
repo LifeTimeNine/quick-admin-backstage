@@ -21,6 +21,11 @@ export default {
       path: 'upload',
       name: 'Upload',
       component: () => import('@/views/demo/Upload')
+    },
+    {
+      path: 'xlsx',
+      name: 'XlsxDemo',
+      component: () => import('@/views/demo/Xlsx')
     }
   ]
 }

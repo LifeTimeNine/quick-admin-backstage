@@ -14,12 +14,22 @@ module.exports = {
    * @type {Array}
    * @description 不需要验证Token的页面地址
    */
-  whitePaths: ['/404', '/login'],
+  whitePaths: [
+    '/404',
+    '/login'
+  ],
   /**
    * @type {Array}
    * @description 不需要验证节点权限的页面地址
    */
-  commonPaths: ['/dashboard', '/demo/tinymce', '/demo/datalist', '/demo/formDialog', '/demo/upload'],
+  commonPaths: [
+    '/dashboard',
+    '/demo/tinymce',
+    '/demo/datalist',
+    '/demo/formDialog',
+    '/demo/upload',
+    '/demo/xlsx'
+  ],
   /**
    * @type {boolean} true | false
    * @description 是否修复标题
