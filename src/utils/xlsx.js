@@ -2,7 +2,7 @@ import * as XLSX from 'xlsx'
 
 function dateNum(v, date1904) {
   if (date1904) v += 1462
-  var epoch = Date.parse(v)
+  const epoch = Date.parse(v)
   return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000)
 }
 
@@ -34,7 +34,7 @@ export function WorkSheet(name = '', workSheet = null) {
   }
 
   this.name = name
-  var range = {
+  const range = {
     s: { r: 0, c: 0 },
     e: { r: 0, c: 0 }
   }
@@ -62,7 +62,7 @@ export function WorkSheet(name = '', workSheet = null) {
   }
 
   this.appendCell = function(r, c, value) {
-    var cell = {
+    const cell = {
       v: value
     }
     if (typeof value === 'number') {
@@ -87,18 +87,18 @@ export function WorkSheet(name = '', workSheet = null) {
   this.getData = function() {
     if (!this['!ref']) return []
     const range = XLSX.utils.decode_range(this['!ref'])
-    var result = []
-    for (var r = range.s.r; r <= range.e.r; ++r) {
+    const result = []
+    for (let r = range.s.r; r <= range.e.r; ++r) {
       if (!result[r]) result[r] = []
-      for (var c = range.s.c; c <= range.e.c; ++c) {
+      for (let c = range.s.c; c <= range.e.c; ++c) {
         result[r][c] = this.getCell(r, c)
       }
     }
     return result
   }
   this.setData = function(data) {
-    for (var r of Object.keys(data)) {
-      for (var c of Object.keys(data[r])) {
+    for (const r of Object.keys(data)) {
+      for (const c of Object.keys(data[r])) {
         this.appendCell(parseInt(r), parseInt(c), data[r][c])
       }
     }

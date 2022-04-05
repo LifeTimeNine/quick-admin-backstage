@@ -89,7 +89,7 @@ export default {
   deactivated() {
     this.destroyTinymce()
   },
-  destroyed() {
+  unmounted() {
     this.destroyTinymce()
   },
   methods: {
@@ -126,7 +126,7 @@ export default {
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp need Nonbreaking Space Plugin
         file_picker_types: 'media,image',
         file_picker_callback: (callback, value, meta) => {
-          var input = document.createElement('input')
+          const input = document.createElement('input')
           input.setAttribute('type', 'file')
           if (meta.filetype === 'image') {
             input.setAttribute('accept', 'image/*')
@@ -135,15 +135,15 @@ export default {
           }
           input.onchange = function() {
             if (this.files.length > 0) {
-              var file = this.files[0]
-              var loading = _this.$loading({
+              const file = this.files[0]
+              const loading = _this.$loading({
                 target: '.mce-reset',
                 lock: true,
                 text: '开始计算文件MD5',
                 // spinner: 'loading',
                 background: 'rgba(0, 0, 0, 0.7)'
               })
-              var upload = new Upload()
+              const upload = new Upload()
               upload.onMd5Progress((loaded, total) => {
                 loading.setText(`MD5: ${Math.round(loaded / total * 10000) / 100}%`)
               }).onMd5After(() => {
@@ -155,7 +155,7 @@ export default {
               }).onAfter(() => {
                 loading.setText(`正在合并`)
               })
-              var func;
+              let func
               if (meta.filetype === 'image') {
                 func = upload.save
               } else {

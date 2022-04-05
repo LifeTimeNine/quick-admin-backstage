@@ -45,20 +45,20 @@ export default {
       } else {
         this.levelList = []
         if (this.menuActive === '') return
-        var tmpMenus = this.menus
-        var indexList = this.menuActive.split('-')
+        let tmpMenus = this.menus
+        const indexList = this.menuActive.split('-')
         while (indexList.length > 0) {
-          var index = indexList.shift()
+          const index = indexList.shift()
           this.levelList.push(tmpMenus[index].title)
           tmpMenus = tmpMenus[index].children
         }
       }
     },
     getMenuIndex(path, menus, indexs = []) {
-      var length = menus.length
+      const length = menus.length
       for (let i = 0; i < length; ++i) {
         if (menus[i].url === '#' && menus[i].children.length > 0) {
-          var res = this.getMenuIndex(path, menus[i].children, indexs.concat([i]))
+          const res = this.getMenuIndex(path, menus[i].children, indexs.concat([i]))
           if (res !== '') {
             return res
           }

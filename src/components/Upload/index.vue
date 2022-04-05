@@ -106,7 +106,7 @@ export default {
   },
   computed: {
     showAdd() {
-      var num = this.list.filter(item => !item.delete).length
+      const num = this.list.filter(item => !item.delete).length
       return (!this.multiple && num === 0) ||
         (this.multiple && this.limit === 0) ||
         (this.multiple && num < this.limit)
@@ -114,7 +114,7 @@ export default {
   },
   created() {
     if (this.multiple) {
-      for (var item of this.modelValue) {
+      for (const item of this.modelValue) {
         this.list.push({
           url: item,
           name: item,
@@ -178,7 +178,7 @@ export default {
       this.updateModelValue()
     },
     updateModelValue() {
-      var modelValue
+      let modelValue
       if (this.multiple) {
         modelValue = this.list.filter(item => !item.delete && item.status === 6).map(item => item.url)
       } else {
