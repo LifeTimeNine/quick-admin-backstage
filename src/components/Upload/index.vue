@@ -113,24 +113,26 @@ export default {
     }
   },
   created() {
-    if (this.multiple) {
-      for (const item of this.modelValue) {
+    if (this.modelValue) {
+      if (this.multiple) {
+        for (const item of this.modelValue) {
+          this.list.push({
+            url: item,
+            name: item,
+            status: 6,
+            progress: 0,
+            delete: false
+          })
+        }
+      } else {
         this.list.push({
-          url: item,
-          name: item,
+          url: this.modelValue,
+          name: this.modelValue,
           status: 6,
           progress: 0,
           delete: false
         })
       }
-    } else {
-      this.list.push({
-        url: this.modelValue,
-        name: this.modelValue,
-        status: 6,
-        progress: 0,
-        delete: false
-      })
     }
   },
   methods: {
