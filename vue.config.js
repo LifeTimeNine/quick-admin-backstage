@@ -26,7 +26,6 @@ module.exports = defineConfig({
   },
 
   chainWebpack(config) {
-
     config.plugins.delete('prefetch')
 
     config.module.rule('svg').exclude.add(resolve('src/icons')).end()

@@ -14,7 +14,8 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "make:api": "node scripts/make/index.js --action=api"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.3",

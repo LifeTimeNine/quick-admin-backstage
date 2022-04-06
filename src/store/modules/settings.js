@@ -1,7 +1,5 @@
 import { basic } from '@/apis/modules/systemConfig'
-import defaultSettings from '@/settings'
-
-const { system_name, fixedHeader, sidebarLogo } = defaultSettings
+import { system_name, fixedHeader, sidebarLogo } from '@/settings'
 
 const state = {
   system_name,
