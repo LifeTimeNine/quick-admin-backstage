@@ -24,7 +24,7 @@
     </ul>
     <div v-else-if="type === 'image'" class="image-list">
       <div v-for="(item, index) in list" v-show="!item.delete" :key="index" class="image-list-item" :style="{ width: `${imageWidth}px`, height: `${imageHeight}px` }">
-        <el-progress v-if="item.status !== 6" type="circle" :percentage="getProgress(index)" :status="getProgressStatus(index)" :width="120" />
+        <el-progress v-if="item.status !== 6" type="circle" :percentage="getProgress(index)" :status="getProgressStatus(index)" :width="progressWidth" />
         <el-image v-if="item.status === 6" :src="item.url" fit="fill" :lazy="true" :style="{ width: `${imageWidth}px`, height: `${imageHeight}px` }" />
         <div class="image-list-item-actions">
           <svg-icon icon-class="delete" @click="onRemove(index)" />
@@ -110,6 +110,9 @@ export default {
       return (!this.multiple && num === 0) ||
         (this.multiple && this.limit === 0) ||
         (this.multiple && num < this.limit)
+    },
+    progressWidth() {
+      return this.imageHeight > this.imageWidth ? this.imageWidth : this.imageHeight
     }
   },
   created() {
@@ -336,6 +339,12 @@ export default {
       .el-progress {
         opacity: .5;
       }
+    }
+    .el-progress {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 }
