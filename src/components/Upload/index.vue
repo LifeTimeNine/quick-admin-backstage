@@ -101,6 +101,34 @@ export default {
     }
   },
   emits: ['update:modelValue', 'on-progress', 'on-success', 'on-fail'],
+  watch: {
+    modelValue: {
+      immediate: true,
+      handler(value) {
+        this.list = []
+        if (this.multiple) {
+          for (const item of value) {
+            this.list.push({
+              url: item,
+              name: item,
+              status: 6,
+              progress: 0,
+              delete: false
+            })
+          }
+        } else {
+          if (!value) return
+          this.list.push({
+            url: value,
+            name: value,
+            status: 6,
+            progress: 0,
+            delete: false
+          })
+        }
+      }
+    }
+  },
   data() {
     return {
       list: [],
@@ -123,29 +151,6 @@ export default {
     },
     usableList() {
       return this.list.filter(item => !item.delete && item.status === 6).map(item => item.url)
-    }
-  },
-  mounted() {
-    if (this.modelValue) {
-      if (this.multiple) {
-        for (const item of this.modelValue) {
-          this.list.push({
-            url: item,
-            name: item,
-            status: 6,
-            progress: 0,
-            delete: false
-          })
-        }
-      } else {
-        this.list.push({
-          url: this.modelValue,
-          name: this.modelValue,
-          status: 6,
-          progress: 0,
-          delete: false
-        })
-      }
     }
   },
   methods: {
