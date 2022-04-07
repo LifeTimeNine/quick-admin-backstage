@@ -27,6 +27,7 @@
         <el-progress v-if="item.status !== 6" type="circle" :percentage="getProgress(index)" :status="getProgressStatus(index)" :width="progressWidth" />
         <el-image v-if="item.status === 6" :src="item.url" fit="fill" :lazy="true" :style="{ width: `${imageWidth}px`, height: `${imageHeight}px` }" />
         <div class="image-list-item-actions">
+          <svg-icon icon-class="view" @click="onImagePreview(item.url)" />
           <svg-icon icon-class="delete" @click="onRemove(index)" />
         </div>
       </div>
@@ -44,6 +45,7 @@
           <svg-icon icon-class="plus" />
         </div>
       </el-upload>
+      <el-image-viewer v-if="imagePreviewOpened" :initial-index="imagePreviewIndex" :url-list="modelValue" @close="imagePreviewClose" />
     </div>
   </div>
 </template>
@@ -101,7 +103,9 @@ export default {
   emits: ['update:modelValue', 'on-progress', 'on-success', 'on-fail'],
   data() {
     return {
-      list: []
+      list: [],
+      imagePreviewOpened: false,
+      imagePreviewIndex: null
     }
   },
   computed: {
@@ -113,9 +117,12 @@ export default {
     },
     progressWidth() {
       return this.imageHeight > this.imageWidth ? this.imageWidth : this.imageHeight
+    },
+    imagePreview() {
+      return this.$refs['image-preview']
     }
   },
-  created() {
+  mounted() {
     if (this.modelValue) {
       if (this.multiple) {
         for (const item of this.modelValue) {
@@ -178,6 +185,10 @@ export default {
         return ''
       }
     },
+    onImagePreview(url) {
+      this.imagePreviewIndex = this.modelValue.indexOf(url)
+      this.imagePreviewOpened = true
+    },
     onRemove(index) {
       this.list[index].delete = true
       this.updateModelValue()
@@ -230,6 +241,9 @@ export default {
         this.list[index].status = 7
         this.$emit('on-fail', index)
       })
+    },
+    imagePreviewClose() {
+      this.imagePreviewOpened = false
     }
   }
 }
@@ -318,18 +332,20 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
-      cursor: pointer;
       color: #fff;
       opacity: 0;
       font-size: 20px;
       background-color: var(--el-color-info-dark-2);
       transition: opacity var(--el-transition-duration);
       border-radius: var(--el-border-radius-base);
-      .svg-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      & .svg-icon {
+        cursor: pointer;
+        &:hover {
+          opacity: .6;
+        }
       }
     }
     &:hover &-actions {

@@ -38,7 +38,7 @@ export default {
   name: 'DemoUpload',
   data() {
     return {
-      url: ['http://dev.quick-admin.com/storage/b5/cfc1209181f9bac0f80b4e9de8160f.gif', 'http://dev.quick-admin.com/storage/b5/cfc1209181f9bac0f80b4e9de8160f.gif']
+      url: ['http://dev.quick-admin.com/storage/b5/cfc1209181f9bac0f80b4e9de8160f.gif', 'http://dev.quick-admin.com/storage/4b/3cc2c5bd9ce418482907be38443e74.jpg']
     }
   },
   methods: {
