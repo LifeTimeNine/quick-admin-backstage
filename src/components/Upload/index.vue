@@ -45,7 +45,7 @@
           <svg-icon icon-class="plus" />
         </div>
       </el-upload>
-      <el-image-viewer v-if="imagePreviewOpened" :initial-index="imagePreviewIndex" :url-list="modelValue" @close="imagePreviewClose" />
+      <el-image-viewer v-if="imagePreviewOpened" :initial-index="imagePreviewIndex" :url-list="usableList" @close="imagePreviewClose" />
     </div>
   </div>
 </template>
@@ -120,6 +120,9 @@ export default {
     },
     imagePreview() {
       return this.$refs['image-preview']
+    },
+    usableList() {
+      return this.list.filter(item => !item.delete && item.status === 6).map(item => item.url)
     }
   },
   mounted() {
@@ -196,7 +199,7 @@ export default {
     updateModelValue() {
       let modelValue
       if (this.multiple) {
-        modelValue = this.list.filter(item => !item.delete && item.status === 6).map(item => item.url)
+        modelValue = this.usableList
       } else {
         modelValue = this.list[0].url ?? ''
       }

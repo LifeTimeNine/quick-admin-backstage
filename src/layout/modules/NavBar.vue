@@ -24,8 +24,7 @@
     <form-dialog ref="info" @on-save="saveUserInfo">
       <template #default="{ row }">
         <el-form-item label="头像" prop="avatar">
-          <el-avatar :size="60" shape="square" :src="row.avatar" fit="fill" />
-          <upload v-model="row.avatar" accept="image/*" style="margin-left: 10px" />
+          <upload v-model="row.avatar" accept="image/*" type="image" :image-width="80" :image-height="80" style="margin-left: 10px" />
         </el-form-item>
         <el-form-item label="用户名" prop="username">
           <el-input v-model="row.username" disabled />
