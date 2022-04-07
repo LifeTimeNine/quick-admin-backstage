@@ -1,11 +1,11 @@
 <template>
-  <section class="app-main">
+  <el-scrollbar class="app-main">
     <router-view v-slot="{ Component }">
       <transition name="fade-transform" mode="out-in">
         <component :is="Component" />
       </transition>
     </router-view>
-  </section>
+  </el-scrollbar>
 </template>
 
 <script>
@@ -22,10 +22,9 @@ export default {
 <style scoped>
 .app-main {
   /*50 = navbar  */
-  min-height: calc(100vh - 50px);
+  height: calc(100vh - 50px);
   width: 100%;
   position: relative;
-  overflow: hidden;
   padding: 10px;
 }
 .fixed-header+.app-main {
