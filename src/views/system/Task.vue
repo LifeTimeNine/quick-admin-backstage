@@ -139,7 +139,7 @@ import { add, edit, status } from '@/apis/modules/systemTask'
 export default {
   name: 'SystemTask',
   data() {
-    var validCrontab = (rule, value, callback) => {
+    const validCrontab = (rule, value, callback) => {
       if (this.getForm.row.type === 1 && !value) {
         callback(new Error('请输入定时参数'))
       } else {
@@ -208,7 +208,7 @@ export default {
     onEdit(row) {
       this.getForm.open({
         id: row.id,
-        title: row.id,
+        title: row.title,
         command: row.command,
         params: row.params,
         type: row.type,
