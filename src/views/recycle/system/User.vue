@@ -35,7 +35,7 @@
               <el-link v-auth="$nodes.systemUser.restore" type="success">恢复</el-link>
             </template>
           </el-popconfirm>
-          <el-popconfirm title="确定要永久删除这条数据吗？" @confirm="$action($nodes.systemUser.delete, { id: row.id }, refreshList)">>
+          <el-popconfirm title="确定要永久删除这条数据吗？" @confirm="$action($nodes.systemUser.del, { id: row.id }, refreshList)">>
             <template #reference>
               <el-link v-auth="$nodes.systemUser.del" type="danger">永久删除</el-link>
             </template>
