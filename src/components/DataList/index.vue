@@ -31,8 +31,6 @@
       :pager-count="7"
       @size-change="pageSizeChange"
       @current-change="pageChange"
-      @prev-click="pageChange"
-      @next-click="pageChange"
     />
   </div>
 </template>
