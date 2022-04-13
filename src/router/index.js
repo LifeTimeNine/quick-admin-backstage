@@ -32,8 +32,7 @@ const routes = [
   system,
   {
     path: '/*',
-    redirect: '/404',
-    hidden: true
+    redirect: '/404'
   }
 ]
 

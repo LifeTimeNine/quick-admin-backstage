@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { promises } = require('fs')
-const { rootPath, args } = require('./Utils')
+const { rootPath, args } = require('../Utils')
 
 function Api() {
   const name = args._[0]
@@ -44,7 +44,7 @@ export const del = data => post(nodes.del, data)
   const importNodes = function() {
     const filePath = `${rootPath}/src/apis/nodes.js`
     let content = fs.readFileSync(filePath, { encoding: 'utf8' })
-    content = content.replace(/import[\w\W]*'/g, res => {
+    content = content.replace(/import[\w\W]*from\s'[^\s\r\n]*'/g, res => {
       return res + `\r\nimport { nodes as ${name} } from './modules/${name}'`
     })
     content = content.replace(/export default {\s*([a-zA-Z][\w\W]*[a-zA-Z]|\s*)\s*}/, (res, $1) => {
@@ -68,7 +68,7 @@ export const del = data => post(nodes.del, data)
   this.run = function() {
     const filePath = `${this.getFileDir()}${this.getFileName()}`
     fs.stat(filePath, (_err, stat) => {
-      // if (stat.isFile()) throw new Error('The Api file already exists')
+      if (stat && stat.isFile()) throw new Error('The Api file already exists')
       this.writeFile()
     })
   }

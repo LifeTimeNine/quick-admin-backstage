@@ -15,7 +15,8 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "make:api": "node scripts/make/index.js --action=api"
+    "make:api": "node scripts/make/index.js --action=api",
+    "make:router": "node scripts/make/index.js --action=router"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.3",
