@@ -17,7 +17,7 @@ function Router() {
   this.getFileContent = function() {
     return `
 export default {
-  path: '/name',
+  path: '/${name}',
   component: () => import('@/layout'),
   children: []
 }
