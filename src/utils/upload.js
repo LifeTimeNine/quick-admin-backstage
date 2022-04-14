@@ -116,7 +116,7 @@ const Upload = function(options = {}) {
         nextFunc()
       }
       fileReader.onerror = function() {
-        reject()
+        reject(new Error('文件读取失败'))
       }
       nextFunc()
     })
@@ -152,15 +152,15 @@ const Upload = function(options = {}) {
                 callback(afterCallback, [url])
                 resolve(url)
               }
-            }).catch(() => {
-              reject()
+            }).catch(e => {
+              reject(e)
             })
           }
-        }).catch(() => {
-          reject()
+        }).catch(e => {
+          reject(e)
         })
-      }).catch(() => {
-        reject()
+      }).catch(e => {
+        reject(e)
       })
     })
   }
@@ -258,8 +258,8 @@ const Upload = function(options = {}) {
                       }).then(() => {
                         // todo 完成
                         resolve(url)
-                      }).catch(() => {
-                        reject()
+                      }).catch(e => {
+                        reject(e)
                       })
                     }
                     nextFunc()
