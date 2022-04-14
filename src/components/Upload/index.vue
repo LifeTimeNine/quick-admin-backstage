@@ -244,10 +244,10 @@ export default {
         this.list[index].status = 6
         this.list[index].url = url
         this.updateModelValue()
-        this.$emit('on-success', url, index, raw)
-      }).catch(() => {
+        this.$emit('on-success', url, raw, index)
+      }).catch(e => {
         this.list[index].status = 7
-        this.$emit('on-fail', index)
+        this.$emit('on-fail', e, index)
       })
     },
     imagePreviewClose() {
