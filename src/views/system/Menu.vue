@@ -13,7 +13,11 @@
           <svg-icon :icon-class="row.icon" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('designation')" prop="title" />
+      <el-table-column :label="$t('designation')">
+        <template #default="{ row }">
+          {{ $t(`menu.${row.title}`, row.title) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('page_path')" prop="url" />
       <el-table-column :label="$t('permissions_node')" prop="node" />
       <el-table-column :label="$t('create_time')" prop="create_time" width="160" />
