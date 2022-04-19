@@ -76,6 +76,10 @@ export default {
         this.$nextTick(() =>
           window.tinymce.get(this.tinymceId).setContent(val || ''))
       }
+    },
+    '$i18n.locale': function(value) {
+      if (this.hasInit) this.destroyTinymce()
+      this.initTinymce()
     }
   },
   mounted() {
@@ -93,6 +97,16 @@ export default {
     this.destroyTinymce()
   },
   methods: {
+    getLanguage() {
+      switch (this.$i18n.locale) {
+        case 'zh':
+          return 'zh_CN'
+        case 'en':
+          return 'en_US'
+        default:
+          return 'zh_CN'
+      }
+    },
     init() {
       // dynamic load tinymce from cdn
       load(tinymceCDN, (err) => {
@@ -106,7 +120,7 @@ export default {
     initTinymce() {
       const _this = this
       window.tinymce.init({
-        language: 'zh_CN',
+        language: _this.getLanguage(),
         selector: `#${this.tinymceId}`,
         height: this.height,
         body_class: 'panel-body ',
@@ -206,13 +220,6 @@ export default {
     },
     getContent() {
       window.tinymce.get(this.tinymceId).getContent()
-    },
-    imageSuccessCBK(arr) {
-      arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
-    },
-    uploadFileSuccess(url) {
-      console.log(url)
-      window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${url}" >`)
     }
   }
 }
