@@ -41,7 +41,7 @@ export default {
       const isWhitePath = whitePaths.indexOf(this.$route.path) !== -1
       if (isWhitePath) return
       if (this.menuActive === '-1') {
-        this.levelList = [this.$t('menu.dashboard')]
+        this.levelList = ['dashboard']
       } else {
         this.levelList = []
         if (this.menuActive === '') return
