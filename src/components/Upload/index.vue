@@ -9,7 +9,7 @@
       :disabled="disabled"
       :accept="accept"
     >
-      <el-button type="primary">选择文件</el-button>
+      <el-button type="primary">{{ $t('select_file') }}</el-button>
     </el-upload>
     <ul v-if="type === 'button'" class="button-list" :class="{multiple: multiple}">
       <li v-for="(item, index) in list" v-show="!item.delete" :key="index" :class="{ 'show-progress': ![1, 6, 7].includes(item.status) }">

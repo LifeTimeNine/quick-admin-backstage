@@ -12,6 +12,7 @@ import { get, post } from './utils/request'
 import icons from './icons'
 import nodes from './apis/nodes'
 import directive from './directive'
+import lang from './lang'
 
 import '@/styles/index.scss'
 import './permission'
@@ -25,15 +26,12 @@ app.use(ElementPlus, {
 })
 app.use(VueClipboard)
 app.use(icons)
+app.use(lang)
+app.use(directive)
 
 // 全局请求方法
 app.config.globalProperties.$get = get
 app.config.globalProperties.$post = post
-
-// 自定义指令
-Object.keys(directive).forEach(key => {
-  app.directive(key, directive[key])
-})
 
 // 全局节点
 app.config.globalProperties.$nodes = nodes
@@ -42,7 +40,7 @@ app.config.globalProperties.$action = (node, data = {}, callback = null) => {
   if (!node) return
   const loading = ElLoading.service()
   post(node, data).then(() => {
-    ElMessage.success('操作成功')
+    ElMessage.success(app.config.globalProperties.$t('action'))
     if (typeof callback === 'function') callback()
   }).finally(() => {
     loading.close()

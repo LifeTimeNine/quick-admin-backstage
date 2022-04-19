@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">系统登录</h3>
+        <h3 class="title">{{ $t('system_login') }}</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,37 +41,41 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.prevent="handleLogin">{{ $t('login') }}</el-button>
 
     </el-form>
+
+    <change-language>
+      <span class="language">
+        <svg-icon icon-class="language" />
+        {{ $t('lang') }}
+      </span>
+    </change-language>
   </div>
 </template>
 
 <script>
 import SparkMD5 from 'spark-md5'
+import { langs } from '@/lang'
+import ChangeLanguage from '@/components/ChangeLanguage'
 
 export default {
   name: 'LogIn',
+  components: { ChangeLanguage },
   data() {
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码不能小于6位'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         username: '',
         password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{ required: true, trigger: 'blur', message: this.$t('validate.required', { name: this.$t('username') }) }],
+        password: [{ required: true, trigger: 'blur', message: this.$t('validate.required', { name: this.$t('password') }) }]
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      langs
     }
   },
   watch: {
@@ -223,6 +227,15 @@ $light_gray:#eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+  .change-language {
+    position: absolute;
+    top: 1em;
+    right: 2em;
+  }
+  .language {
+    color: #fff;
+    cursor: pointer;
   }
 }
 </style>

@@ -16,7 +16,7 @@
         <app-link to="/dashboard">
           <el-menu-item index="-1">
             <svg-icon icon-class="dashboard" />
-            <span>仪表盘</span>
+            <span>{{ $t('menu.dashboard') }}</span>
           </el-menu-item>
         </app-link>
         <sidebar-item v-for="(menu, index) in menus" :key="index + ''" :item="menu" :index="index + ''" />
@@ -33,7 +33,7 @@ import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
 export default {
-  name: 'sideBar',
+  name: 'SideBar',
   components: { SidebarItem, Logo, AppLink },
   computed: {
     ...mapGetters([

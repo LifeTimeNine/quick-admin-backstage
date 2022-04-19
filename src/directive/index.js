@@ -1,5 +1,7 @@
 import auth from './modules/auth'
 
 export default {
-  auth
+  install(app) {
+    app.directive('auth', auth)
+  }
 }

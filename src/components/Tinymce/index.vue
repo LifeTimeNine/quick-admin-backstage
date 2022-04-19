@@ -139,7 +139,7 @@ export default {
               const loading = _this.$loading({
                 target: '.mce-reset',
                 lock: true,
-                text: '开始计算文件MD5',
+                text: _this.$t('upload.md5_begin'),
                 // spinner: 'loading',
                 background: 'rgba(0, 0, 0, 0.7)'
               })
@@ -147,13 +147,13 @@ export default {
               upload.onMd5Progress((loaded, total) => {
                 loading.setText(`MD5: ${Math.round(loaded / total * 10000) / 100}%`)
               }).onMd5After(() => {
-                loading.setText('MD5计算完成')
+                loading.setText(_this.$t('upload.md5_complete'))
               }).onBefore(() => {
-                loading.setText('开始上传')
+                loading.setText(_this.$t('upload.upload_begin'))
               }).onProgress((loaded, total) => {
-                loading.setText(`上传: ${Math.round(loaded / total * 10000) / 100}%`)
+                loading.setText(`${_this.$t('upload.text')}: ${Math.round(loaded / total * 10000) / 100}%`)
               }).onAfter(() => {
-                loading.setText(`正在合并`)
+                loading.setText(_this.$t('upload.merge'))
               })
               let func
               if (meta.filetype === 'image') {
@@ -162,11 +162,11 @@ export default {
                 func = upload.partSave
               }
               func(file).then(url => {
-                loading.setText('上传完成')
+                loading.setText(_this.$t('upload.upload_complete'))
                 callback(url, { title: file.name })
               }).catch(() => {
-                loading.setText('上传失败')
-                _this.$message.error('上传失败')
+                loading.setText(_this.$t('upload.md5_fail'))
+                _this.$message.error(_this.$t('upload.md5_fail'))
               }).finally(() => {
                 loading.close()
               })

@@ -3,43 +3,43 @@
     <data-list ref="data-list" :node="$nodes.systemRole.list">
       <template #search="{ options }">
         <el-form-item>
-          <el-input v-model="options.name" placeholder="名称" />
+          <el-input v-model="options.name" :placeholder="$t('designation')" />
         </el-form-item>
         <el-form-item>
-          <el-select v-model="options.status" placeholder="状态">
-            <el-option label="全部" value="" />
-            <el-option label="正常" value="1" />
-            <el-option label="禁用" value="2" />
+          <el-select v-model="options.status" :placeholder="$t('status')">
+            <el-option :label="$t('all')" value="" />
+            <el-option :label="$t('enable')" value="1" />
+            <el-option :label="$t('disable')" value="2" />
           </el-select>
         </el-form-item>
       </template>
       <template #actions>
-        <el-button v-auth="$nodes.systemRole.add" type="primary" @click="onAdd">新增</el-button>
+        <el-button v-auth="$nodes.systemRole.add" type="primary" @click="onAdd">{{ $t('add') }}</el-button>
       </template>
       <template #list-column>
         <el-table-column label="ID" prop="id" sortable min-width="60" />
-        <el-table-column label="名称" prop="name" />
-        <el-table-column label="描述" prop="desc" />
-        <el-table-column label="创建时间" prop="create_time" width="160" />
-        <el-table-column label="操作" width="180">
+        <el-table-column :label="$t('designation')" prop="name" />
+        <el-table-column :label="$t('description')" prop="desc" />
+        <el-table-column :label="$t('create_time')" prop="create_time" width="160" />
+        <el-table-column :label="$t('action')" width="280">
           <template #default="{ row }">
-            <el-link v-auth="$nodes.systemRole.modifyRoleNodes" @click="onSetNodes(row)">授权</el-link>
-            <el-link v-auth="$nodes.systemRole.edit" type="primary" @click="onEdit(row)">编辑</el-link>
+            <el-link v-auth="$nodes.systemRole.modifyRoleNodes" @click="onSetNodes(row)">{{ $t('authorization') }}</el-link>
+            <el-link v-auth="$nodes.systemRole.edit" type="primary" @click="onEdit(row)">{{ $t('edit') }}</el-link>
             <el-link
               v-if="row.status === 1"
               v-auth="$nodes.systemRole.modifyStatus"
               type="warning"
               @click="$action($nodes.systemRole.modifyStatus, { id: row.id, enable: 0 }, refreshList)"
-            >禁用</el-link>
+            >{{ $t('enable') }}</el-link>
             <el-link
               v-else
               v-auth="$nodes.systemRole.modifyStatus"
               type="success"
               @click="$action($nodes.systemRole.modifyStatus, { id: row.id, enable: 1 }, refreshList)"
-            >启用</el-link>
-            <el-popconfirm title="确定要删除这条数据吗？" @confirm="$action($nodes.systemRole.softDelete, { id: row.id }, refreshList)">
+            >{{ $t('disable') }}</el-link>
+            <el-popconfirm :title="$t('delete_confirm')" @confirm="$action($nodes.systemRole.softDelete, { id: row.id }, refreshList)">
               <template #reference>
-                <el-link v-auth="$nodes.systemRole.softDelete" type="danger">删除</el-link>
+                <el-link v-auth="$nodes.systemRole.softDelete" type="danger">{{ $t('delete') }}</el-link>
               </template>
             </el-popconfirm>
           </template>
@@ -52,17 +52,17 @@
       @on-save="formOnSave"
     >
       <template #default="{ row }">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="row.name" placeholder="请输入姓名" />
+        <el-form-item :label="$t('designation')" prop="name">
+          <el-input v-model="row.name" />
         </el-form-item>
-        <el-form-item label="描述" prop="desc">
-          <el-input v-model="row.desc" placeholder="请输入用户描述" />
+        <el-form-item :label="$t('description')" prop="desc">
+          <el-input v-model="row.desc" />
         </el-form-item>
       </template>
     </form-dialog>
     <el-dialog
       v-model="setNodesFormOpened"
-      title="授权"
+      :title="$t('authorization')"
       width="40%"
     >
       <el-tree
@@ -77,8 +77,8 @@
         accordion
       />
       <template #footer>
-        <el-button @click="setNodesFormOpened = false">取消</el-button>
-        <el-button type="primary" @click="saveNodes">保存</el-button>
+        <el-button @click="setNodesFormOpened = false">{{ $t('cancel') }}</el-button>
+        <el-button type="primary" @click="saveNodes">{{ $t('save') }}</el-button>
       </template>
     </el-dialog>
   </div>
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       formRules: {
-        name: [{ required: true, message: '请输入名称', trigger: 'blur' }]
+        name: [{ required: true, message: this.$t('validate.required', { name: this.$t('designation') }), trigger: 'blur' }]
       },
       setNodesFormOpened: false,
       setNodesId: null,
@@ -125,7 +125,7 @@ export default {
       const loading = this.$loading()
       const func = row.id ? edit : add
       func(row).then(() => {
-        this.$message.success('保存成功')
+        this.$message.success(this.$t('save_success'))
         this.refreshList()
         shutDown()
       }).finally(() => {
@@ -150,7 +150,7 @@ export default {
         srid: this.setNodesId,
         nodes: this.$refs['nodeTree'].getCheckedNodes(true).map(item => item.node)
       }).then(() => {
-        this.$message.success('保存成功')
+        this.$message.success(this.$t('save_success'))
         this.setNodesFormOpened = false
       }).finally(() => {
         loading.close()

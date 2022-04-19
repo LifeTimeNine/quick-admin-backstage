@@ -1,10 +1,14 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger :is-active="sidebar.opened" class="hamburger-container" @click="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+      <change-language>
+        <svg-icon icon-class="language" class="language" />
+      </change-language>
+
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <el-avatar size="large" shape="square" :src="userInfo.avatar" fit="fill">{{ userInfo.username }}</el-avatar>
@@ -12,10 +16,10 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown">
-            <el-dropdown-item @click="onRefresh">刷新信息</el-dropdown-item>
-            <el-dropdown-item divided @click="openEditUserInfo">个人资料</el-dropdown-item>
-            <el-dropdown-item @click="openModifyPwdForm">修改密码</el-dropdown-item>
-            <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item @click="onRefresh">{{ $t('refresh_info') }}</el-dropdown-item>
+            <el-dropdown-item divided @click="openEditUserInfo">{{ $t('personal_data') }}</el-dropdown-item>
+            <el-dropdown-item @click="openModifyPwdForm">{{ $t('modify_pwd') }}</el-dropdown-item>
+            <el-dropdown-item divided @click="logout">{{ $t('logout') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -23,19 +27,19 @@
 
     <form-dialog ref="info" @on-save="saveUserInfo">
       <template #default="{ row }">
-        <el-form-item label="头像" prop="avatar">
+        <el-form-item :label="$t('avatar')" prop="avatar">
           <upload v-model="row.avatar" accept="image/*" type="image" :image-width="80" :image-height="80" style="margin-left: 10px" />
         </el-form-item>
-        <el-form-item label="用户名" prop="username">
+        <el-form-item :label="$t('username')" prop="username">
           <el-input v-model="row.username" disabled />
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
+        <el-form-item :label="$t('name')" prop="name">
           <el-input v-model="row.name" disabled />
         </el-form-item>
-        <el-form-item label="手机号" prop="mobile">
+        <el-form-item :label="$t('mobile')" prop="mobile">
           <el-input v-model="row.mobile" />
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item :label="$t('email')" prop="email">
           <el-input v-model="row.email" />
         </el-form-item>
       </template>
@@ -43,13 +47,13 @@
 
     <form-dialog ref="pwd" @on-save="savePwd">
       <template #default="{ row }">
-        <el-form-item label="原密码">
+        <el-form-item :label="$t('old_pwd')">
           <el-input v-model="row.old_password" type="password" />
         </el-form-item>
-        <el-form-item label="新密码">
+        <el-form-item :label="$t('new_pwd')">
           <el-input v-model="row.new_password" type="password" />
         </el-form-item>
-        <el-form-item label="确认密码">
+        <el-form-item :label="$t('confirm_pwd')">
           <el-input v-model="row.confirm_password" type="password" />
         </el-form-item>
       </template>
@@ -63,12 +67,14 @@ import Breadcrumb from './Breadcrumb'
 import Hamburger from './Hamburger'
 import SparkMD5 from 'spark-md5'
 import { editUserInfo, modifyPwd, refresh } from '@/apis/modules/systemUser'
+import ChangeLanguage from '@/components/ChangeLanguage'
 
 export default {
-  name: 'navBar',
+  name: 'NavBar',
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    ChangeLanguage
   },
   data() {
     return {
@@ -103,20 +109,20 @@ export default {
         name: this.userInfo.name,
         mobile: this.userInfo.mobile,
         email: this.userInfo.email
-      }, '编辑用户信息')
+      }, this.$t('edit_personal_data'))
     },
     saveUserInfo(row, shutDown) {
       const loading = this.$loading()
       editUserInfo(row).then(() => {
-        this.$message.success('保存成功')
+        this.$message.success(this.$t('save_success'))
+        window.location.reload()
+        shutDown()
       }).finally(() => {
         loading.close()
-        shutDown()
-        window.location.reload()
       })
     },
     openModifyPwdForm() {
-      this.getPwd().open({}, '修改密码')
+      this.getPwd().open({}, this.$t('modify_pwd'))
     },
     savePwd(row, shutDown) {
       const loading = this.$loading()
@@ -125,7 +131,7 @@ export default {
         new_password: SparkMD5.hash(row.new_password),
         confirm_password: SparkMD5.hash(row.confirm_password)
       }).then(() => {
-        this.$message.success('密码已修改，下次登录请使用新密码')
+        this.$message.success(this.$t('pwd_modify_success'))
         shutDown()
       }).finally(() => {
         loading.close()
@@ -135,7 +141,7 @@ export default {
       refresh().then(async() => {
         await this.$store.dispatch('user/getUserInfo')
         await this.$store.dispatch('user/getMenu')
-        this.$message.success('刷新成功')
+        this.$message.success(this.$t('refresh_success'))
       })
     }
   }
@@ -213,6 +219,16 @@ export default {
           cursor: pointer;
           font-size: 14px;
         }
+      }
+    }
+    .language {
+      line-height: 50px;
+      color: var(--el-text-color-regular);
+      font-size: 24px;
+      margin-right: 1em;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.85;
       }
     }
   }

@@ -10,8 +10,8 @@
       <slot :row="row" />
     </el-form>
     <template #footer>
-      <el-button :size="size" @click="opened = false">{{ cancelBtnText }}</el-button>
-      <el-button type="primary" :size="size" @click="saveClick">{{ saveBtnText }}</el-button>
+      <el-button :size="size" @click="opened = false">{{ $t(cancelBtnText) }}</el-button>
+      <el-button type="primary" :size="size" @click="saveClick">{{ $t(saveBtnText) }}</el-button>
     </template>
   </el-dialog>
 </template>
@@ -44,11 +44,11 @@ export default {
     },
     saveBtnText: {
       type: String,
-      default: '保存'
+      default: 'save'
     },
     cancelBtnText: {
       type: String,
-      default: '取消'
+      default: 'cancel'
     }
   },
   emits: {
@@ -64,7 +64,7 @@ export default {
   methods: {
     open(row = {}, title = null) {
       this.row = Object.assign({}, row)
-      this.title = title || (row.id ? '编辑' : '新增')
+      this.title = title || (row.id ? this.$t('edit') : this.$t('add'))
       this.opened = true
     },
     getForm() {

@@ -3,20 +3,20 @@
     <data-list ref="data-list" :node="$nodes.systemConfig.list">
       <template #search="{ options }">
         <el-form-item>
-          <el-input v-model="options.name" placeholder="配置名称" />
+          <el-input v-model="options.name" :placeholder="$t('config_name')" />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="options.key" placeholder="配置键" />
+          <el-input v-model="options.key" :placeholder="$t('config_key')" />
         </el-form-item>
       </template>
       <template #actions>
-        <el-button v-auth="$nodes.systemConfig.add" type="primary" @click="onAdd">新增</el-button>
+        <el-button v-auth="$nodes.systemConfig.add" type="primary" @click="onAdd">{{ $t('add') }}</el-button>
       </template>
       <template #list-column>
         <el-table-column label="ID" prop="id" sortable />
-        <el-table-column label="名称" prop="name" sortable />
-        <el-table-column label="键" prop="key" />
-        <el-table-column label="值">
+        <el-table-column :label="$t('designation')" prop="name" sortable />
+        <el-table-column :label="$t('config_key')" prop="key" />
+        <el-table-column :label="$t('config_value')">
           <template #default="{ row }">
             <span v-if="row.type === 1">{{ row.value }}</span>
             <template v-else-if="row.type === 2">
@@ -27,35 +27,35 @@
             </template>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column :label="$t('action')">
           <template #default="{ row }">
-            <el-link v-auth="$nodes.systemConfig.edit" type="primary" @click="onEdit(row)">编辑</el-link>
-            <el-link v-auth="$nodes.systemConfig.del" type="danger" @click="$action($nodes.systemConfig.del, { id: row.id }, refreshList)">删除</el-link>
+            <el-link v-auth="$nodes.systemConfig.edit" type="primary" @click="onEdit(row)">{{ $t('action') }}</el-link>
+            <el-link v-auth="$nodes.systemConfig.del" type="danger" @click="$action($nodes.systemConfig.del, { id: row.id }, refreshList)">{{ $t('delete') }}</el-link>
           </template>
         </el-table-column>
       </template>
     </data-list>
     <el-dialog
       v-model="editFormOpened"
-      :title="editForm.id ? '编辑' : '添加'"
+      :title="editForm.id ? $t('edit') : $t('add')"
       width="50%"
       @closed="editFormClose"
     >
       <el-form ref="editForm" :model="editForm" :rules="editFormRules" label-width="80px" :inline="false">
-        <el-form-item label="键" prop="key">
+        <el-form-item :label="$t('config_key')" prop="key">
           <el-input v-model="editForm.key" :disabled="!addEdit" />
         </el-form-item>
-        <el-form-item label="名称" prop="name">
+        <el-form-item :label="$t('config_name')" prop="name">
           <el-input v-model="editForm.name" />
         </el-form-item>
-        <el-form-item label="类型" prop="type">
+        <el-form-item :label="$t('type')" prop="type">
           <el-select v-model="editForm.type" style="width: 100%" @change="typeChange">
-            <el-option label="字符串" :value="1" />
-            <el-option label="列表" :value="2" />
-            <el-option label="Map表" :value="3" />
+            <el-option :label="$t('string')" :value="1" />
+            <el-option :label="$t('list')" :value="2" />
+            <el-option :label="$t('map')" :value="3" />
           </el-select>
         </el-form-item>
-        <el-form-item label="值">
+        <el-form-item :label="$t('config_value')">
           <el-input v-if="editForm.type === 1" v-model="tmpValue" />
           <template v-if="editForm.type === 2">
             <div>
@@ -72,10 +72,10 @@
               <div v-for="(item, index) in tmpValue" :key="index" class="value-map-items">
                 <div class="value-map-items-box">
                   <div>
-                    键：<el-input v-model="tmpValue[index].key" />
+                    {{ $t('key') }}：<el-input v-model="tmpValue[index].key" />
                   </div>
                   <div>
-                    值：<el-input v-model="tmpValue[index].value" type="textarea" />
+                    {{ $t('value') }}：<el-input v-model="tmpValue[index].value" type="textarea" />
                   </div>
                 </div>
                 <svg-icon icon-class="delete-filled" @click="editValueItemDel(index)" />
@@ -86,8 +86,8 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="editFormOpened = false">取消</el-button>
-        <el-button type="primary" @click="save">确定</el-button>
+        <el-button @click="editFormOpened = false">{{ $t('cancel') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('save') }}</el-button>
       </template>
     </el-dialog>
   </div>
@@ -109,9 +109,9 @@ export default {
       editFormOpened: false,
       editForm: Object.assign({}, defaultEditForm),
       editFormRules: {
-        key: [{ required: true, message: '请输入键', trigger: 'blur' }],
-        name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-        type: [{ required: true, message: '请选择类型', trigger: 'blur' }]
+        key: [{ required: true, message: this.$t('validate.required', { name: this.$t('config_key') }), trigger: 'blur' }],
+        name: [{ required: true, message: this.$t('validate.required', { name: this.$t('config_name') }), trigger: 'blur' }],
+        type: [{ required: true, message: this.$t('validate.select', { name: this.$t('type') }), trigger: 'blur' }]
       },
       tmpValue: []
     }
@@ -183,7 +183,7 @@ export default {
         const func = this.addEdit ? edit : add
         const loading = this.$loading()
         func(this.editForm).then(() => {
-          this.$message.success('保存成功')
+          this.$message.success(this.$t('save_success'))
           this.editFormOpened = false
           this.refreshList()
         }).finally(() => {

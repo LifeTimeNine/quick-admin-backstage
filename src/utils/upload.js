@@ -1,6 +1,7 @@
 import SparkMd5 from 'spark-md5'
 import Axios from 'axios'
 import { info, partComplete, partInfo, partOptions as getPartOptions } from '@/apis/modules/upload'
+import { Lang } from '@/lang'
 
 const Upload = function(options = {}) {
   // 异步上传
@@ -116,7 +117,7 @@ const Upload = function(options = {}) {
         nextFunc()
       }
       fileReader.onerror = function() {
-        reject(new Error('文件读取失败'))
+        reject(new Error(Lang.t('file_read_fail')))
       }
       nextFunc()
     })

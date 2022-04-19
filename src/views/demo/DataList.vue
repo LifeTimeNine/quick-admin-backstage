@@ -44,12 +44,12 @@
         <el-table-column label="请求地址" prop="request_ip" />
         <el-table-column label="操作">
           <template #default="{ row }">
-            <el-button type="primary" @click="detail(row)">详情</el-button>
+            <el-button type="primary" @click="detail(row)">{{ $t('detail') }}</el-button>
           </template>
         </el-table-column>
       </template>
     </data-list>
-    <el-button type="primary" @click="refresh">刷新</el-button>
+    <el-button type="primary" @click="refresh">{{ $t(refresh) }}</el-button>
     <el-button type="primary" @click="getList">获取列表数据</el-button>
   </div>
 </template>

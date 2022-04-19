@@ -3,8 +3,8 @@
     <el-form v-if="!hideSearch" ref="form" :model="queryOptions" :inline="true">
       <slot name="search" :options="queryOptions" />
       <el-form-item>
-        <el-button type="primary" title="搜索" @click="refresh">搜索</el-button>
-        <el-button @click="resetQuery">重置</el-button>
+        <el-button type="primary" :title="$t('search')" @click="refresh">{{ $t('search') }}</el-button>
+        <el-button @click="resetQuery">{{ $t('reset') }}</el-button>
       </el-form-item>
     </el-form>
     <div class="actions">

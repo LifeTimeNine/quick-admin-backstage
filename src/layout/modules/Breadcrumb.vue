@@ -2,7 +2,7 @@
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="item in levelList" :key="item">
-        <span class="no-redirect">{{ item }}</span>
+        <span class="no-redirect">{{ $t(`menu.${item}`) }}</span>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -41,7 +41,7 @@ export default {
       const isWhitePath = whitePaths.indexOf(this.$route.path) !== -1
       if (isWhitePath) return
       if (this.menuActive === '-1') {
-        this.levelList = ['仪表盘']
+        this.levelList = [this.$t('menu.dashboard')]
       } else {
         this.levelList = []
         if (this.menuActive === '') return

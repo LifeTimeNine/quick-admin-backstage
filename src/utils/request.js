@@ -3,6 +3,7 @@ import { ElMessage } from 'element-plus'
 import { appName } from '@/settings'
 import router from '@/router'
 import store from '@/store'
+import { getLanguage, Lang } from '@/lang'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_API + '/' + appName + '/',
@@ -33,6 +34,7 @@ const permission_denied = 10203
 request.interceptors.request.use(
   config => {
     config.headers['Access-token'] = store.getters.accessToken
+    config.headers['Accept-Language'] = getLanguage()
     return config
   },
   error => {
@@ -63,7 +65,7 @@ request.interceptors.response.use(
     }
   },
   error => {
-    ElMessage.error('服务器开小差了，请稍后再试')
+    ElMessage.error(Lang.t('request_error'))
     return Promise.reject(error)
   }
 )
