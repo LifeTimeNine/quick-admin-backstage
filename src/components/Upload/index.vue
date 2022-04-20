@@ -105,6 +105,10 @@ export default {
     modelValue: {
       immediate: true,
       handler(value) {
+        if (this.isEmit) {
+          this.isEmit = false
+          return
+        }
         this.list = []
         if (this.multiple) {
           for (const item of value) {
@@ -133,7 +137,8 @@ export default {
     return {
       list: [],
       imagePreviewOpened: false,
-      imagePreviewIndex: null
+      imagePreviewIndex: null,
+      isEmit: false
     }
   },
   computed: {
@@ -202,6 +207,7 @@ export default {
       this.updateModelValue()
     },
     updateModelValue() {
+      this.isEmit = true
       let modelValue
       if (this.multiple) {
         modelValue = this.usableList

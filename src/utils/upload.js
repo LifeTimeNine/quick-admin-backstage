@@ -136,7 +136,7 @@ const Upload = function(options = {}) {
         }).then(data => {
           const { options, url } = data.map
           if (!options) {
-            resolve(url)
+            reject(url)
           } else {
             const body = keyValueToFormData(options.body)
             body.append(options.file_key, file)
@@ -228,11 +228,18 @@ const Upload = function(options = {}) {
                 const option = partOptions.shift()
                 const start = (option.part_number - 1) * partSize
                 const end = start + partSize >= file.size ? file.size : start + partSize
+                let data = null
+                if (option.method === 'PUT') {
+                  data = slice.call(file, start, end)
+                } else {
+                  data = keyValueToFormData(option.body)
+                  data.append(option.file_key, slice.call(file, start, end))
+                }
                 Axios.request({
                   url: option.server,
                   method: option.method,
                   headers: keyValueToObj(option.header),
-                  data: slice.call(file, start, end),
+                  data: data,
                   onUploadProgress: function(progressEvent) {
                     completePart[option.part_number] = { completeSize: progressEvent.loaded, etag: null }
                     // todo 上传进度回调

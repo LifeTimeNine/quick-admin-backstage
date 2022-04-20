@@ -19,8 +19,8 @@
     <upload
       ref="upload"
       v-model="url"
-      :part="true"
-      type="image"
+      :part="false"
+      type="button"
       :multiple="true"
       :limit="3"
       :image-width="80"
