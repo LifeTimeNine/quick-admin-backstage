@@ -34,7 +34,7 @@ const permission_denied = 10203
 request.interceptors.request.use(
   config => {
     config.headers['Access-token'] = store.getters.accessToken
-    config.headers['Accept-Language'] = getLanguage()
+    config.headers['Accept-Language'] = getLanguage().request
     return config
   },
   error => {

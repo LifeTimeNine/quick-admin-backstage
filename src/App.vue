@@ -5,27 +5,20 @@
 </template>
 
 <script>
-import { zhCn, en } from 'element-plus/lib/locale/index'
+import * as Langauge from 'element-plus/lib/locale/index'
+import { getLanguage } from './lang'
 export default {
   name: 'App',
   data() {
     return {
-      locale: zhCn
+      locale: Langauge.zhCn
     }
   },
   watch: {
     '$i18n.locale': {
       immediate: true,
       handler: function(value) {
-        switch (value) {
-          case 'zh':
-            this.locale = zhCn
-            break
-          case 'en':
-            this.locale = en
-            break
-          default:
-        }
+        this.locale = Langauge[getLanguage().element_plus]
       }
     }
   },

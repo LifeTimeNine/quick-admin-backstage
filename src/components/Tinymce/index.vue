@@ -13,6 +13,7 @@ import plugins from './plugins'
 import toolbar from './toolbar'
 import load from './dynamicLoadScript'
 import Upload from '@/utils/upload'
+import { getLanguage } from '@/lang'
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
 const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
@@ -78,8 +79,17 @@ export default {
       }
     },
     '$i18n.locale': function(value) {
-      if (this.hasInit) this.destroyTinymce()
-      this.initTinymce()
+      if (this.hasInit) {
+        window.tinymce.EditorManager.execCommand('mceRemoveEditor', true, this.tinymceId)
+        const language = getLanguage().tinymce
+        window.tinymce.i18n.setCode(language)
+        if (language !== 'en_US') {
+          window.tinymce.settings.language = language
+        } else {
+          Reflect.deleteProperty(window.tinymce.settings, 'language')
+        }
+        window.tinymce.EditorManager.execCommand('mceAddEditor', true, this.tinymceId)
+      }
     }
   },
   mounted() {
@@ -97,16 +107,6 @@ export default {
     this.destroyTinymce()
   },
   methods: {
-    getLanguage() {
-      switch (this.$i18n.locale) {
-        case 'zh':
-          return 'zh_CN'
-        case 'en':
-          return 'en_US'
-        default:
-          return 'zh_CN'
-      }
-    },
     init() {
       // dynamic load tinymce from cdn
       load(tinymceCDN, (err) => {
@@ -119,8 +119,7 @@ export default {
     },
     initTinymce() {
       const _this = this
-      window.tinymce.init({
-        language: _this.getLanguage(),
+      const config = {
         selector: `#${this.tinymceId}`,
         height: this.height,
         body_class: 'panel-body ',
@@ -203,7 +202,10 @@ export default {
             _this.fullscreen = e.state
           })
         }
-      })
+      }
+      const language = getLanguage().tinymce
+      if (language && language !== 'en_US') config.language = language
+      window.tinymce.init(config)
     },
     destroyTinymce() {
       const tinymce = window.tinymce.get(this.tinymceId)
