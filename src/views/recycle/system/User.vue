@@ -12,7 +12,7 @@
       </el-form-item>
     </template>
     <template #list-column>
-      <el-table-column label="ID" prop="id" sortable="custom" min-width="65" />
+      <el-table-column label="ID" prop="id" min-width="65" />
       <el-table-column :label="$t('avatar')" width="70">
         <template #default="{ row }">
           <el-avatar shape="square" :src="row.avatar" fit="fill" />
