@@ -10,7 +10,7 @@
         </el-form-item>
       </template>
       <template #list-column>
-        <el-table-column label="ID" prop="id" sortable min-width="60" />
+        <el-table-column label="ID" prop="id" sortable="custom" min-width="60" />
         <el-table-column :label="$t('action_user')">
           <template #default="{ row }">
             <span>{{ row.systemUser.username }}</span>

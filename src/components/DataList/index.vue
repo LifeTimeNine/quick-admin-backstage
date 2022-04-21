@@ -16,6 +16,7 @@
       :data="list"
       border
       stripe
+      @sort-change="sortChange"
     >
       <template #default>
         <slot name="list-column" />
@@ -38,7 +39,8 @@
 <script>
 const defaultQueryOptions = {
   page: 1,
-  limit: 10
+  limit: 10,
+  sort_rule: ''
 }
 export default {
   name: 'DataList',
@@ -94,7 +96,7 @@ export default {
     refresh() {
       this.$nextTick(() => {
         this.tableLoading = true
-        this.$get(this.node, Object.assign({}, this.extendQuery, this.queryOptions)).then(({ items, limit, page, total }) => {
+        this.$get(this.node, this.getQuery()).then(({ items, limit, page, total }) => {
           this.list = items
           this.total = total
           this.queryOptions.limit = limit
@@ -104,6 +106,13 @@ export default {
         })
       })
     },
+    getQuery() {
+      const query = Object.assign({}, this.extendQuery, this.queryOptions)
+      Object.keys(query).forEach(item => {
+        if (!query[item]) Reflect.deleteProperty(query, item)
+      })
+      return query
+    },
     resetQuery() {
       this.queryOptions = Object.assign({}, defaultQueryOptions)
       this.refresh()
@@ -112,6 +121,14 @@ export default {
       this.refresh()
     },
     pageChange() {
+      this.refresh()
+    },
+    sortChange({ prop, order }) {
+      if (prop) {
+        this.queryOptions.sort_rule = `${prop}.${order === 'ascending' ? 'asc' : 'desc'}`
+      } else {
+        this.queryOptions.sort_rule = ''
+      }
       this.refresh()
     },
     getList() {

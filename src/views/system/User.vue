@@ -23,7 +23,7 @@
         <el-button v-auth="$nodes.systemUser.add" type="primary" @click="onAdd">{{ $t('add') }}</el-button>
       </template>
       <template #list-column>
-        <el-table-column label="ID" prop="id" sortable min-width="65" />
+        <el-table-column label="ID" prop="id" sortable="custom" min-width="65" />
         <el-table-column :label="$t('avatar')" width="70">
           <template #default="{ row }">
             <el-avatar shape="square" :src="row.avatar" fit="fill" />
