@@ -13,7 +13,7 @@
         <el-button v-auth="$nodes.systemConfig.add" type="primary" @click="onAdd">{{ $t('add') }}</el-button>
       </template>
       <template #list-column>
-        <el-table-column label="ID" prop="id" sortable />
+        <el-table-column label="ID" prop="id" sortable="custom" />
         <el-table-column :label="$t('designation')" prop="name" sortable />
         <el-table-column :label="$t('config_key')" prop="key" />
         <el-table-column :label="$t('config_value')">

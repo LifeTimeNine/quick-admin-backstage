@@ -10,13 +10,13 @@
         </el-form-item>
       </template>
       <template #list-column>
-        <el-table-column label="ID" prop="id" min-width="65" sortable />
+        <el-table-column label="ID" prop="id" min-width="65" sortable="custom" />
         <el-table-column :label="$t('hash_value')" prop="hash" />
         <el-table-column :label="$t('app_name')" prop="app_name" width="70" />
         <el-table-column :label="$t('request_address')" prop="path_info" min-width="140" />
         <el-table-column :label="$t('error_message')" prop="error_message" min-width="110" />
-        <el-table-column :label="$t('first_happen_time')" prop="happen_time" min-width="160" sortable />
-        <el-table-column :label="$t('last_happen_time')" prop="last_happen_time" min-width="160" sortable />
+        <el-table-column :label="$t('first_happen_time')" prop="happen_time" min-width="160" sortable="custom" />
+        <el-table-column :label="$t('last_happen_time')" prop="last_happen_time" min-width="160" sortable="custom" />
         <el-table-column :label="$t('happen_number')" prop="happen_num" min-width="90" />
         <el-table-column :label="$t('resolve_user')">
           <template #default="{ row }">

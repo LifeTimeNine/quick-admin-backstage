@@ -26,7 +26,7 @@
         <el-button v-auth="$nodes.systemTask.add" type="primary" @click="onAdd">{{ $t('add') }}</el-button>
       </template>
       <template #list-column>
-        <el-table-column label="ID" prop="id" width="65" sortable />
+        <el-table-column label="ID" prop="id" width="65" sortable="custom" />
         <el-table-column :label="$t('task_name')" prop="title" />
         <el-table-column :label="$t('task_info')" min-width="180">
           <template #default="{ row }">

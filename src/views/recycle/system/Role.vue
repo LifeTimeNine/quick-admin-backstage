@@ -6,7 +6,7 @@
       </el-form-item>
     </template>
     <template #list-column>
-      <el-table-column label="ID" prop="id" sortable min-width="60" />
+      <el-table-column label="ID" prop="id" sortable="custom" min-width="60" />
       <el-table-column :label="$t('designation')" prop="name" />
       <el-table-column :label="$t('description')" prop="desc" />
       <el-table-column :label="$t('create_time')" prop="create_time" width="160" />
