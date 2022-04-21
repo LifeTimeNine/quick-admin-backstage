@@ -45,7 +45,7 @@
 
     </el-form>
 
-    <change-language>
+    <change-language v-if="isMultiLang">
       <span class="language">
         <svg-icon icon-class="language" />
         {{ $t('lang') }}
@@ -58,6 +58,7 @@
 import SparkMD5 from 'spark-md5'
 import { langs } from '@/lang'
 import ChangeLanguage from '@/components/ChangeLanguage'
+import { multiLang } from '@/settings'
 
 export default {
   name: 'LogIn',
@@ -84,6 +85,11 @@ export default {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
+    }
+  },
+  computed: {
+    isMultiLang() {
+      return multiLang
     }
   },
   methods: {

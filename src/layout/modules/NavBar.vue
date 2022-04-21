@@ -5,7 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <change-language>
+      <change-language v-if="isMultiLang">
         <svg-icon icon-class="language" class="language" />
       </change-language>
 
@@ -68,6 +68,7 @@ import Hamburger from './Hamburger'
 import SparkMD5 from 'spark-md5'
 import { editUserInfo, modifyPwd, refresh } from '@/apis/modules/systemUser'
 import ChangeLanguage from '@/components/ChangeLanguage'
+import { multiLang } from '@/settings'
 
 export default {
   name: 'NavBar',
@@ -84,7 +85,10 @@ export default {
     ...mapGetters([
       'sidebar',
       'userInfo'
-    ])
+    ]),
+    isMultiLang() {
+      return multiLang
+    }
   },
   methods: {
     getInfo() {

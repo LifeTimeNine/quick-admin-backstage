@@ -15,3 +15,5 @@ export const commonPaths = [
 ]
 export const fixedHeader = false
 export const sidebarLogo = false
+
+export const multiLang = true
