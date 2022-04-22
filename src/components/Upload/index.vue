@@ -317,6 +317,7 @@ export default {
 }
 .image-list {
   display: flex;
+  flex-wrap: wrap;
   &-item {
     margin: 0 5px 5px 0;
     position: relative;
