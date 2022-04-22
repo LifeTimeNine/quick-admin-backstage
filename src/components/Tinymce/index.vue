@@ -77,6 +77,7 @@ export default {
         this.$nextTick(() =>
           window.tinymce.get(this.tinymceId).setContent(val || ''))
       }
+      if (this.hasChange) this.hasChange = false
     },
     '$i18n.locale': function(value) {
       if (this.hasInit) {
@@ -194,7 +195,9 @@ export default {
           _this.hasInit = true
           editor.on('NodeChange Change KeyUp SetContent', () => {
             this.hasChange = true
-            this.$emit('update:modelValue', editor.getContent())
+            const content = editor.getContent()
+            this.$emit('update:modelValue', content)
+            if (!content) this.hasChange = false
           })
         },
         setup(editor) {
