@@ -136,7 +136,7 @@ const Upload = function(options = {}) {
         }).then(data => {
           const { options, url } = data.map
           if (!options) {
-            reject(url)
+            resolve(url)
           } else {
             const body = keyValueToFormData(options.body)
             body.append(options.file_key, file)
