@@ -40,7 +40,7 @@ app.config.globalProperties.$action = (node, data = {}, callback = null) => {
   if (!node) return
   const loading = ElLoading.service()
   post(node, data).then(() => {
-    ElMessage.success(app.config.globalProperties.$t('action'))
+    ElMessage.success(app.config.globalProperties.$t('action_success'))
     if (typeof callback === 'function') callback()
   }).finally(() => {
     loading.close()
