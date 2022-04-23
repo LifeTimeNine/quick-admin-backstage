@@ -212,7 +212,7 @@ export default {
       if (this.multiple) {
         modelValue = this.usableList
       } else {
-        modelValue = this.list[0].url ?? ''
+        modelValue = this.usableList[0] ? this.usableList[0] : ''
       }
       this.$emit('update:modelValue', modelValue)
     },
