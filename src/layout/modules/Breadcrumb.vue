@@ -10,7 +10,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { whitePaths } from '@/settings'
 
 export default {
   name: 'BreadCrumb',
@@ -27,48 +26,45 @@ export default {
   },
   watch: {
     $route() {
-      this.getBreadcrumb()
+      this.levelList = this.getBreadcrumb(this.menus)
     }
   },
   created() {
     if (this.$route.path !== '/dashboard') {
       this.$store.commit('app/MENU_ACTIVE', this.getMenuIndex(this.$route.path, this.menus))
     }
-    this.getBreadcrumb()
+    this.levelList = this.getBreadcrumb(this.menus)
   },
   methods: {
-    getBreadcrumb() {
-      const isWhitePath = whitePaths.indexOf(this.$route.path) !== -1
-      if (isWhitePath) return
-      if (this.menuActive === '-1') {
-        this.levelList = ['dashboard']
-      } else {
-        this.levelList = []
-        if (this.menuActive === '') return
-        let tmpMenus = this.menus
-        const indexList = this.menuActive.split('-')
-        while (indexList.length > 0) {
-          const index = indexList.shift()
-          this.levelList.push(tmpMenus[index].title)
-          tmpMenus = tmpMenus[index].children
-        }
-      }
-    },
-    getMenuIndex(path, menus, indexs = []) {
-      const length = menus.length
-      for (let i = 0; i < length; ++i) {
-        if (menus[i].url === '#' && menus[i].children.length > 0) {
-          const res = this.getMenuIndex(path, menus[i].children, indexs.concat([i]))
-          if (res !== '') {
+    getBreadcrumb(menus, levelList = []) {
+      for (const menu of menus) {
+        if (menu.url === '#' && menu.children.length > 0) {
+          const res = this.getBreadcrumb(menu.children)
+          if (res.length > 0) {
+            res.unshift(menu.title)
             return res
           }
         } else {
-          if (menus[i].url === path) {
-            return indexs.concat([i]).join('-')
+          if (menu.id === parseInt(this.menuActive)) {
+            levelList.unshift(menu.title)
+            return levelList
           }
         }
       }
-      return ''
+      return []
+    },
+    getMenuIndex(path, menus) {
+      for (const menu of menus) {
+        if (menu.url === '#' && menu.children.length > 0) {
+          const res = this.getMenuIndex(path, menu.children)
+          if (res !== null) return res
+        } else {
+          if (menu.url === path) {
+            return menu.id + ''
+          }
+        }
+      }
+      return null
     }
   }
 }

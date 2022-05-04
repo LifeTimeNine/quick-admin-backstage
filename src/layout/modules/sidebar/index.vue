@@ -13,13 +13,7 @@
         mode="vertical"
         @select="menuSelect"
       >
-        <app-link to="/dashboard">
-          <el-menu-item index="-1">
-            <svg-icon icon-class="dashboard" />
-            <span>{{ $t('menu.dashboard') }}</span>
-          </el-menu-item>
-        </app-link>
-        <sidebar-item v-for="(menu, index) in menus" :key="index + ''" :item="menu" :index="index + ''" />
+        <sidebar-item v-for="menu in menus" :key="menu.id" :item="menu" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -28,13 +22,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import Logo from './Logo'
-import AppLink from './AppLink'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
 export default {
   name: 'SideBar',
-  components: { SidebarItem, Logo, AppLink },
+  components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
       'sidebar',

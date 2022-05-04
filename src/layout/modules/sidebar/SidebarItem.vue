@@ -2,24 +2,23 @@
   <div>
     <template v-if="item.children.length == 0">
       <app-link :to="item.params ? (item.url + '?' + item.params) : item.url">
-        <el-menu-item :index="index" :class="{'submenu-title-noDropdown':!isNest}">
+        <el-menu-item :index="item.id + ''" :class="{'submenu-title-noDropdown':!isNest}">
           <svg-icon :icon-class="item.icon || ''" />
           <span v-if="item.title">{{ $t(`menu.${item.title}`, item.title) }}</span>
         </el-menu-item>
       </app-link>
     </template>
 
-    <el-sub-menu v-else ref="subMenu" :index="index" popper-append-to-body>
+    <el-sub-menu v-else ref="subMenu" :index="item.id + ''" popper-append-to-body>
       <template #title>
         <svg-icon :icon-class="item.icon || ''" />
         <span v-if="item.title">{{ $t(`menu.${item.title}`, item.title) }}</span>
       </template>
       <sidebar-item
-        v-for="(child, childIndex) in item.children"
-        :key="child.url"
+        v-for="child in item.children"
+        :key="child.id"
         :is-nest="true"
         :item="child"
-        :index="index + '-' + childIndex"
         class="nest-menu"
       />
     </el-sub-menu>
@@ -41,10 +40,6 @@ export default {
     isNest: {
       type: Boolean,
       default: false
-    },
-    index: {
-      type: String,
-      default: ''
     }
   }
 }

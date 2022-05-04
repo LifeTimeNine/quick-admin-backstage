@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column :label="$t('designation')">
         <template #default="{ row }">
-          {{ $t(`menu.${row.title}`, row.title) }}
+          <span v-if="row.title">{{ $t(`menu.${row.title}`, row.title) }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('page_path')" prop="url" />

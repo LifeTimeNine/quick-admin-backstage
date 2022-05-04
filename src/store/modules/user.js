@@ -27,6 +27,14 @@ const mutations = {
     state.userInfo = userInfo
   },
   SET_MENUS: (state, menus) => {
+    menus.unshift({
+      id: 0,
+      title: 'dashboard',
+      icon: 'dashboard',
+      url: '/dashboard',
+      params: null,
+      children: []
+    })
     state.menus = menus
   },
   SET_NODES: (state, nodes) => {
@@ -95,7 +103,7 @@ const actions = {
         commit('SET_MENUS', menus)
         commit('SET_NODES', nodes)
         const getMenuPaths = (menus) => {
-          var whitePaths = []
+          let whitePaths = []
           menus.forEach(item => {
             if (item.url === '#' && item.children.length > 0) {
               whitePaths = whitePaths.concat(getMenuPaths(item.children))
