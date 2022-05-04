@@ -4,7 +4,7 @@ const req = require.context('./svg', false, /\.svg$/)
 
 // 导出 SVG 图表列表
 export const svgIcons = req.keys().map(item => {
-  const regRes = item.match(/\w+(?=\.svg)/)
+  const regRes = item.match(/[\w\-]+(?=\.svg)/)
   if (regRes) return regRes[0]
 })
 const requireAll = requireContext => requireContext.keys().map(requireContext)
