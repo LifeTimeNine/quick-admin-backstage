@@ -179,8 +179,8 @@ export default {
                 loading.setText(_this.$t('upload.upload_complete'))
                 callback(url, { title: file.name })
               }).catch(() => {
-                loading.setText(_this.$t('upload.md5_fail'))
-                _this.$message.error(_this.$t('upload.md5_fail'))
+                loading.setText(_this.$t('upload.upload_fail'))
+                _this.$message.error(_this.$t('upload.upload_fail'))
               }).finally(() => {
                 loading.close()
               })
