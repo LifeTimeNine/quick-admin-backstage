@@ -43,6 +43,7 @@ export default {
 
   // 菜单项
   menu: {
+    top_menu: 'Top menu',
     dashboard: 'Dashboard',
     system_manage: 'System',
     system_menu: 'System menu',
@@ -128,7 +129,6 @@ export default {
   copy_trace_data: 'Copy trace data',
   parent_menu: 'Parent menu',
   page_param: 'Page parameter',
-  top_menu: 'Top menu',
   all: 'All',
   status: 'Status',
   service_status: 'Service status',

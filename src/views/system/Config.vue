@@ -29,7 +29,7 @@
         </el-table-column>
         <el-table-column :label="$t('action')">
           <template #default="{ row }">
-            <el-link v-auth="$nodes.systemConfig.edit" type="primary" @click="onEdit(row)">{{ $t('action') }}</el-link>
+            <el-link v-auth="$nodes.systemConfig.edit" type="primary" @click="onEdit(row)">{{ $t('edit') }}</el-link>
             <el-link v-auth="$nodes.systemConfig.del" type="danger" @click="$action($nodes.systemConfig.del, { id: row.id }, refreshList)">{{ $t('delete') }}</el-link>
           </template>
         </el-table-column>

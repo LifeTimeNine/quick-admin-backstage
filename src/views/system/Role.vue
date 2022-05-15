@@ -30,13 +30,13 @@
               v-auth="$nodes.systemRole.modifyStatus"
               type="warning"
               @click="$action($nodes.systemRole.modifyStatus, { id: row.id, enable: 0 }, refreshList)"
-            >{{ $t('enable') }}</el-link>
+            >{{ $t('disable') }}</el-link>
             <el-link
               v-else
               v-auth="$nodes.systemRole.modifyStatus"
               type="success"
               @click="$action($nodes.systemRole.modifyStatus, { id: row.id, enable: 1 }, refreshList)"
-            >{{ $t('disable') }}</el-link>
+            >{{ $t('enable') }}</el-link>
             <el-popconfirm :title="$t('delete_confirm')" @confirm="$action($nodes.systemRole.softDelete, { id: row.id }, refreshList)">
               <template #reference>
                 <el-link v-auth="$nodes.systemRole.softDelete" type="danger">{{ $t('delete') }}</el-link>

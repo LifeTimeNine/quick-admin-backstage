@@ -151,9 +151,9 @@ export default {
       serverCommand: '',
       interVal: null,
       formRules: {
-        title: [{ required: true, message: this.$t('validate.required', { name: this.$t('task_name') }), trigger: 'blur' }],
-        command: [{ required: true, message: this.$t('validate.required', { name: this.$t('task_command') }), trigger: 'blur' }],
-        type: [{ required: true, message: this.$t('validate.select', { name: this.$t('task_type') }), trigger: 'blur' }],
+        title: [{ required: true, message: () => this.$t('validate.required', { name: this.$t('task_name') }), trigger: 'blur' }],
+        command: [{ required: true, message: () => this.$t('validate.required', { name: this.$t('task_command') }), trigger: 'blur' }],
+        type: [{ required: true, message: () => this.$t('validate.select', { name: this.$t('task_type') }), trigger: 'blur' }],
         crontab: [{
           validator: validCrontab,
           trigger: 'blur'

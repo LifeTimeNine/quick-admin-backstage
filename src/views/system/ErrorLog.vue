@@ -26,7 +26,7 @@
         <el-table-column :label="$t('resolve_time')" prop="resolve_time" min-width="160" />
         <el-table-column :label="$t('action')">
           <template #default="{ row }">
-            <el-link type="primary" @click="showDetail(row)">{{ $t('action') }}</el-link>
+            <el-link type="primary" @click="showDetail(row)">{{ $t('detail') }}</el-link>
           </template>
         </el-table-column>
       </template>

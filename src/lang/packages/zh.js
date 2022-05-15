@@ -43,6 +43,7 @@ export default {
 
   // 菜单项
   menu: {
+    top_menu: '顶级菜单',
     dashboard: '仪表盘',
     system_manage: '系统管理',
     system_menu: '系统菜单',
@@ -128,7 +129,6 @@ export default {
   copy_trace_data: '复制追踪数据',
   parent_menu: '父级菜单',
   page_param: '页面参数',
-  top_menu: '顶级菜单',
   all: '全部',
   status: '状态',
   service_status: '服务状态',

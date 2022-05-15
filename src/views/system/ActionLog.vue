@@ -22,7 +22,7 @@
         <el-table-column :label="$t('from_ip')" prop="request_ip" />
         <el-table-column :label="$t('action')">
           <template #default="{ row }">
-            <el-link type="primary" @click="showDetail(row)">{{ $t('action') }}</el-link>
+            <el-link type="primary" @click="showDetail(row)">{{ $t('detail') }}</el-link>
           </template>
         </el-table-column>
       </template>

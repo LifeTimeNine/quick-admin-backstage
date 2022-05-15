@@ -92,7 +92,6 @@ export default {
     return {
       tableLoading: false,
       list: [],
-      selectList: [],
       editItemPids: [],
       editFormRules: {
         pid: [
@@ -117,6 +116,9 @@ export default {
   computed: {
     getFormDialog() {
       return this.$refs['form-dialog']
+    },
+    selectList() {
+      return [{ id: 0, title: this.$t('top_menu') }, ...this.itemLanguage(this.list)]
     }
   },
   watch: {
@@ -136,7 +138,6 @@ export default {
       this.tableLoading = true
       list().then(({ list }) => {
         this.list = list
-        this.selectList = [{ id: 0, title: this.$t('top_menu') }].concat(this.list)
       }).finally(() => {
         this.tableLoading = false
       })
@@ -210,6 +211,18 @@ export default {
     nodeSearch(queryStr, callback) {
       const searchList = queryStr ? this.userMenuNodes.filter(item => item.node.indexOf(queryStr) === 0) : this.userMenuNodes
       callback(searchList)
+    },
+    itemLanguage(menus) {
+      const menus_ = []
+      menus.forEach(item => {
+        const item_ = Object.assign({}, item)
+        item_.title = this.$t(`menu.${item.title}`)
+        if (item_.children && item_.children.length > 0) {
+          item_.children = this.itemLanguage(item_.children)
+        }
+        menus_.push(item_)
+      })
+      return menus_
     }
   }
 }
