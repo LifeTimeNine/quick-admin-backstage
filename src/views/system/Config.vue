@@ -180,7 +180,7 @@ export default {
     save() {
       this.$refs['editForm'].validate(valid => {
         if (!valid) return false
-        const func = this.addEdit ? edit : add
+        const func = this.addEdit ? add : edit
         const loading = this.$loading()
         func(this.editForm).then(() => {
           this.$message.success(this.$t('save_success'))
